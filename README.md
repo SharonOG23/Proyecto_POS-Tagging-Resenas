@@ -70,15 +70,17 @@ Página 13
 ## 📄 Corpus utilizados
 
 | Corpus | URL |
+|--------|-----|
 | IMDB Spoiler Dataset | https://www.kaggle.com/datasets/rmisra/imdb-spoiler-dataset |
 | Reviews of IMDB Movies | https://www.kaggle.com/datasets/thedevastator/reviews-of-imdb-movies |
-| IMDB Dataset of 50K Movie Reviews (Spanish) | https://www.kaggle.com/datasets/rmisra/imdb-spoiler-dataset |
+| IMDB Dataset of 50K Movie Reviews (Spanish) | https://www.kaggle.com/datasets/luisdiegofv97/imdb-dataset-of-50k-movie-reviews-spanish |
 
 ---
 
 ## 🏆 Rúbrica de evaluación
 
 | Peso | Criterio |
+|------|----------|
 | 30% | Implementación Técnica POS Tagging |
 | 30% | Profundidad del Análisis Morfológico |
 | 20% | Comparación NLTK vs spaCy |
