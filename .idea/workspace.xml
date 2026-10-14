@@ -8,17 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/Data Process/comparacion_nltk_spacy_resultados.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/Data Process/comparacion_pos.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/01_carga_traduccin_limpieza.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/01_carga_traduccin_limpieza.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/02_2_pos_tagging_NLTK_es.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/02_2_pos_tagging_NLTK_es.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/02_pos_tagging_nltk_spacy.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/02_pos_tagging_spacy.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notebooks/03_analisis_metricas.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/03_analisis_metricas.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/04_visualizaciones.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/comparacion_nltk_spacy.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/comparacion_nltk_spacy.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputs/dashboard_peliculas.py" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/dashboard_peliculas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Comparacion_Spacy_NLTK.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Comparacion_Spacy_NLTK.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/comentarios_aleatorios.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/comentarios_aleatorios.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pos_tagging_nltk.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pos_tagging_nltk.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/visualizations.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/metrics.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/metrics.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,27 +46,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.Comparacion_Spacy_NLTK.executor": "Run",
-    "Python.comentarios_aleatorios.executor": "Run",
-    "Python.pos_tagging_spacy.executor": "Run",
-    "Python.traduccion.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/sharo/Documents/MINERIA DE TEXTOS/Presentaciones #1/Examen #1/Proyecto_POS-Tagging-Resenas",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.Comparacion_Spacy_NLTK.executor&quot;: &quot;Run&quot;,
+    &quot;Python.comentarios_aleatorios.executor&quot;: &quot;Run&quot;,
+    &quot;Python.metrics.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pos_tagging_spacy.executor&quot;: &quot;Run&quot;,
+    &quot;Python.traduccion.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/sharo/Documents/MINERIA DE TEXTOS/Presentaciones #1/Examen #1/Proyecto_POS-Tagging-Resenas&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -97,7 +89,10 @@
       <workItem from="1791939665533" duration="56000" />
       <workItem from="1791939867900" duration="404000" />
       <workItem from="1791952073217" duration="1975000" />
-      <workItem from="1791954111329" duration="3810000" />
+      <workItem from="1791954111329" duration="3957000" />
+      <workItem from="1791958143722" duration="10000" />
+      <workItem from="1791963479335" duration="2163000" />
+      <workItem from="1791965742661" duration="442000" />
     </task>
     <servers />
   </component>
@@ -105,6 +100,7 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Proyecto_POS_Tagging_Resenas$metrics.coverage" NAME="metrics Coverage Results" MODIFIED="1791965607321" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Proyecto_POS_Tagging_Resenas$traduccion.coverage" NAME="traduccion Coverage Results" MODIFIED="1791953834404" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Proyecto_POS_Tagging_Resenas$Comparacion_Spacy_NLTK.coverage" NAME="Comparacion_Spacy_NLTK Coverage Results" MODIFIED="1791957342139" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Proyecto_POS_Tagging_Resenas$comentarios_aleatorios.coverage" NAME="comentarios_aleatorios Coverage Results" MODIFIED="1791953536226" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
