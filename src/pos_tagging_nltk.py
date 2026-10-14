@@ -1,4 +1,4 @@
-
+"""
 Pipeline NLP en español con NLTK sobre la columna `review_summary_es`.
 
 Orden del pipeline:

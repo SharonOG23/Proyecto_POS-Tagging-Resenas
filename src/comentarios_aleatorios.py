@@ -5,8 +5,8 @@ import pandas as pd  # Libreria para manejar y analizar datos en estructuras de 
 
 # Rutas de archivos
 RAIZ = Path(__file__).resolve().parent.parent  # Ruta principal del proyecto
-CARPETA_RAW = RAIZ / "data" / "raw"  # Carpeta donde se encuentran los archivos CSV originales
-CSV_ORIGINAL = CARPETA_RAW / "corpus_peliculas 2.csv"  # Ruta del archivo CSV original con las reseñas de películas
+CARPETA_RAW = RAIZ / "notebooks"  # Carpeta donde se encuentran los archivos CSV originales
+CSV_ORIGINAL = CARPETA_RAW / "corpus_peliculas.csv"  # Ruta del archivo CSV original con las reseñas de películas
 
 #-----------------------------------------------------------------------------------------#
 

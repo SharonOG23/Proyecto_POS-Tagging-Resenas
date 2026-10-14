@@ -6,7 +6,7 @@ import sys
 import time
 import difflib
 from collections import Counter
-
+from pathlib import Path
 import pandas as pd
 import nltk
 import spacy
@@ -17,7 +17,17 @@ from nltk.tag import UnigramTagger, BigramTagger, DefaultTagger
 # ----------------------------------------------------------------------------
 # CONFIGURACIÓN
 # ----------------------------------------------------------------------------
-CSV_PATH = sys.argv[1] if len(sys.argv) > 1 else "resenas_es 1.csv"
+# Se busca la carpeta principal del proyecto
+try:
+    RAIZ = Path(__file__).resolve().parent.parent      # cuando se corre el .py desde src/
+except NameError:                                      # cuando se corre dentro de un notebook
+    RAIZ = Path.cwd() if (Path.cwd() / "data").exists() else Path.cwd().parent
+
+# Solo se usa el argumento si de verdad es un CSV (en un notebook sys.argv trae otras cosas)
+if len(sys.argv) > 1 and sys.argv[1].endswith(".csv"):
+    CSV_PATH = sys.argv[1]
+else:
+    CSV_PATH = RAIZ / "data" / "processed" / "resenas_es.csv"
 COLUMN = "review_summary_es"
 N_EJEMPLOS = 3          # reseñas mostradas en formato tabla (como tu código)
 MAX_FILAS = None        # p.ej. 5000 para limitar; None = todo el dataset

@@ -1,5 +1,11 @@
 import pandas as pd
+from pathlib import Path
 from dash import Dash, dcc, html, dash_table, Input, Output, State
+
+# La carpeta principal del proyecto es la que está un nivel arriba de este archivo
+RAIZ = Path(__file__).resolve().parent.parent
+# CSV traducido, que está en data/processed
+CSV = RAIZ / "data" / "processed" / "resenas_es.csv"
 
 # Colores del dashboard adaptados al estilo de la imagen (Modo Oscuro / Cine)
 FONDO = "#1e1e1e"        # Fondo general oscuro que combina con la imagen
@@ -14,7 +20,7 @@ MENSAJE_INICIAL = "Haz clic en una película de la tabla para ver sus reseñas."
 
 
 class DashboardPeliculas:
-    def __init__(self, ruta_csv="resenas_es.csv"):
+    def __init__(self, ruta_csv=CSV):
         self.df = pd.read_csv(ruta_csv)
         self.generos = sorted(self.df["genero"].unique())
 
@@ -227,4 +233,4 @@ class DashboardPeliculas:
 
 
 if __name__ == "__main__":
-    DashboardPeliculas("resenas_es.csv").run()
+    DashboardPeliculas().run()
