@@ -8,6 +8,7 @@ RAIZ = Path(__file__).resolve().parent.parent  # Ruta principal del proyecto
 CARPETA_RAW = RAIZ / "data" / "raw"  # Carpeta donde se encuentran los archivos CSV originales
 CSV_ORIGINAL = CARPETA_RAW / "corpus_peliculas 2.csv"  # Ruta del archivo CSV original con las reseñas de películas
 
+#-----------------------------------------------------------------------------------------#
 
 # Creamos la clase ComentariosAlea para manejar el muestreo de reseñas de películas
 class ComentariosAlea:
@@ -23,6 +24,8 @@ class ComentariosAlea:
         self.periodos = ["antes_2010", "2010_o_despues"]  # Definimos los periodos de tiempo para las reseñas
 
         self.muestra = None  # Inicializamos la variable que contendrá la muestra final de reseñas
+
+#-----------------------------------------------------------------------------------------#
 
     # Método 1. Cargar y limpiar el CSV
     def cargar(
@@ -41,8 +44,7 @@ class ComentariosAlea:
                        .str.replace(r"\s+", " ", regex=True)  # Reemplazamos múltiples espacios por un solo espacio
                        .str.strip())  # Eliminamos espacios al inicio y al final del texto
 
-        df = df[(df["review_summary"] != "") & (df[
-                                                    "plot_summary"] != "")]  # Nos quedamos solo con las filas donde las columnas de texto no están vacías
+        df = df[(df["review_summary"] != "") & (df["plot_summary"] != "")]  # Nos quedamos solo con las filas donde las columnas de texto no están vacías
 
         df["fecha_resena"] = pd.to_datetime(df["review_date"],
                                             errors="coerce")  # Convertimos la columna de fecha de reseña a tipo datetime
@@ -73,6 +75,8 @@ class ComentariosAlea:
             f"Reseñas disponibles después de filtrar: {len(self.df)}")  # Imprimimos la cantidad de reseñas disponibles después de aplicar todos los filtros
         return self.df
 
+#-----------------------------------------------------------------------------------------#
+
     # Método 2. Tomar n reseñas de un grupo
     def tomar(self, grupo, n):  # Tomamos n reseñas de un grupo, asegurándonos de no exceder el máximo por película
         grupo = grupo.sample(frac=1, random_state=self.semilla)  # Mezclar aleatoriamente el grupo
@@ -82,6 +86,8 @@ class ComentariosAlea:
             columns="exceso")  # Ordenamos el grupo para que las reseñas que exceden el máximo por película queden al final y luego eliminamos la columna "exceso"
         return grupo.head(
             n)  # Devolvemos las primeras n reseñas del grupo, que son las que cumplen con el máximo por película
+
+#-----------------------------------------------------------------------------------------#
 
     # Método 3. Muestreo: mismo número de reseñas por género y por periodo
     def muestrear(self):
@@ -119,6 +125,8 @@ class ComentariosAlea:
         self.muestra = muestra  # Guardamos la muestra final en el atributo de la clase
         return muestra  # Devolvemos la muestra final de reseñas
 
+#-----------------------------------------------------------------------------------------#
+
     # Método 4. Para validar que la muestra cumple con los requisitos de cantidad por género y periodo
     def validar(self):  # Validamos que la muestra cumple con los requisitos de cantidad por género y periodo
         m = self.muestra  # Nos quedamos con la muestra final de reseñas
@@ -140,6 +148,8 @@ class ComentariosAlea:
         print(
             "AVISO: las reseñas son cortas (review_summary), no cumplen 30-400 palabras.")  # Imprimimos un mensaje de aviso indicando que las reseñas son cortas y no cumplen con el rango de 30-400 palabras en la columna "review_summary"
 
+#-----------------------------------------------------------------------------------------#
+
     # Método 5. Guardar el CSV
     def guardar(self, ruta_salida=None):  # Guardamos la muestra final de reseñas en un archivo CSV
         # Se guarda en la ruta de data/raw/muestra_n.csv
@@ -151,11 +161,3 @@ class ComentariosAlea:
                             encoding="utf-8")  # Guardamos la muestra final de reseñas en un archivo CSV sin incluir el índice y con codificación utf-8
         print(
             f"Muestra guardada en {ruta_salida}")  # Imprimimos un mensaje indicando la ruta donde se guardó la muestra final de reseñas
-
-    # Método 6. Ejecutar todo el proceso
-    def ejecutar(self, ruta_salida=None):
-        self.cargar()  # Cargamos y limpiamos el CSV original
-        self.muestrear()  # Tomamos la muestra final de reseñas
-        self.validar()  # Validamos que la muestra cumple con los requisitos de cantidad por género y periodo
-        self.guardar(ruta_salida)  # Guardamos la muestra final de reseñas en un archivo CSV
-        return self.muestra  # Devolvemos la muestra final de reseñas
