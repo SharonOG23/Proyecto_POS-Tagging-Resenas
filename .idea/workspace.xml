@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="71e483a3-f780-42a3-8eeb-761895bbf436" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/USO_DE_IA.md" beforeDir="false" afterPath="$PROJECT_DIR$/USO_DE_IA.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/Data Process/comparacion_nltk_spacy_resultados.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/03_analisis_metricas.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/03_analisis_metricas.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/comparacion_nltk_spacy.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/comparacion_nltk_spacy.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +91,7 @@
       <workItem from="1791958143722" duration="10000" />
       <workItem from="1791963479335" duration="2163000" />
       <workItem from="1791965742661" duration="788000" />
-      <workItem from="1791999333582" duration="4150000" />
+      <workItem from="1791999333582" duration="8105000" />
     </task>
     <servers />
   </component>
