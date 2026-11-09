@@ -1,211 +1,352 @@
 """
-POS Tagging en español utilizando spaCy.
-
-Entrada:
-    data/processed/resenas_es.csv
+Comparación NLP: NLTK vs spaCy
 
 Salida:
-    data/results/pos_analisis_spacy.csv
+data/results/comparacion_spacy_nltk.csv
 
-Genera un registro por token.
+Una fila por reseña.
 """
 
 from pathlib import Path
+from tqdm.auto import tqdm
+
 import pandas as pd
+import nltk
 import spacy
 
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords, cess_esp
+from nltk.stem import SnowballStemmer
+from nltk.tag import (
+    DefaultTagger,
+    UnigramTagger,
+    BigramTagger,
+    TrigramTagger,
+)
+
 # =====================================================
-# RUTAS DEL PROYECTO
+# RUTAS
 # =====================================================
 
-# Proyecto_POS-Tagging-Resenas/
 RAIZ = Path(__file__).resolve().parent.parent
 
-# Archivo de entrada
 CSV_ENTRADA = RAIZ / "data" / "processed" / "resenas_es.csv"
 
-# Archivo de salida
-CSV_SALIDA = RAIZ / "data" / "results" / "comparacion_spacy_nltk.csv"
+CSV_SALIDA = (
+    RAIZ
+    / "data"
+    / "results"
+    / "comparacion_spacy_nltk.csv"
+)
 
-# Crear carpeta de resultados si no existe
 CSV_SALIDA.parent.mkdir(
     parents=True,
     exist_ok=True
 )
 
-# Mostrar rutas utilizadas
-print("\n" + "=" * 60)
-print("CONFIGURACIÓN DE RUTAS")
-print("=" * 60)
-print("RAIZ         :", RAIZ)
-print("CSV_ENTRADA  :", CSV_ENTRADA)
-print("CSV_SALIDA   :", CSV_SALIDA)
-print("EXISTE CSV   :", CSV_ENTRADA.exists())
-print("=" * 60)
-
-if not CSV_ENTRADA.exists():
-    raise FileNotFoundError(
-        f"No se encontró el archivo:\n{CSV_ENTRADA}"
-    )
-
-
-class SpacyPOSTagging:
-    """
-    Procesamiento POS Tagging utilizando spaCy.
-    """
-
-    def __init__(
-        self,
-        ruta_entrada=CSV_ENTRADA,
-        ruta_salida=CSV_SALIDA,
-        columna="review_summary_es",
-        modelo="es_core_news_md"
-    ):
-
-        self.ruta_entrada = Path(ruta_entrada)
-        self.ruta_salida = Path(ruta_salida)
-        self.columna = columna
-
-        print("Cargando modelo spaCy...")
-
-        try:
-            self.nlp = spacy.load(modelo)
-        except OSError:
-            raise OSError(
-                f"""
-No se pudo cargar el modelo '{modelo}'.
-
-Instálalo con:
-
-python -m spacy download {modelo}
-"""
-            )
-
-    def cargar_datos(self):
-
-        if not self.ruta_entrada.exists():
-            raise FileNotFoundError(
-                f"No existe el archivo:\n{self.ruta_entrada}"
-            )
-
-        df = pd.read_csv(self.ruta_entrada)
-
-        if self.columna not in df.columns:
-            raise KeyError(
-                f"No existe la columna '{self.columna}'. "
-                f"Columnas disponibles: {list(df.columns)}"
-            )
-
-        df[self.columna] = (
-            df[self.columna]
-            .fillna("")
-            .astype(str)
-        )
-
-        return df
-
-    def procesar_review(self, texto, review_id):
-
-        doc = self.nlp(str(texto))
-
-        resultado = []
-
-        for token in doc:
-
-            resultado.append(
-                {
-                    "review_id": review_id,
-                    "token": token.text,
-                    "lemma": token.lemma_,
-                    "pos": token.pos_,
-                    "tag": token.tag_,
-                    "dep": token.dep_,
-                    "is_stop": token.is_stop,
-                    "is_punct": token.is_punct,
-                    "is_alpha": token.is_alpha,
-                }
-            )
-
-        return resultado
-
-    def ejecutar(self):
-
-        print("Leyendo archivo...")
-
-        df = self.cargar_datos()
-
-        filas = []
-
-        total_reviews = len(df)
-
-        print(f"Reseñas encontradas: {total_reviews:,}")
-
-        for idx, row in df.iterrows():
-
-            texto = row[self.columna]
-
-            filas.extend(
-                self.procesar_review(
-                    texto=texto,
-                    review_id=idx
-                )
-            )
-
-            if (idx + 1) % 100 == 0:
-                print(
-                    f"Procesadas {idx + 1:,}/{total_reviews:,} reseñas"
-                )
-
-        df_resultado = pd.DataFrame(filas)
-
-        print(f"Total registros generados: {len(df_resultado):,}")
-
-        df_resultado.to_csv(
-            self.ruta_salida,
-            index=False,
-            encoding="utf-8-sig"
-        )
-
-        print("\nProceso completado")
-        print("Archivo generado:")
-        print(self.ruta_salida.resolve())
-
-        print(
-            "¿Archivo existe?:",
-            self.ruta_salida.exists()
-        )
-
-        if self.ruta_salida.exists():
-            print(
-                "Tamaño (bytes):",
-                self.ruta_salida.stat().st_size
-            )
-
-        return df_resultado
-
-
 # =====================================================
-# MAIN
+# DESCARGA NLTK
 # =====================================================
 
-if __name__ == "__main__":
+for recurso in [
+    "punkt",
+    "punkt_tab",
+    "stopwords",
+    "cess_esp",
+]:
+    nltk.download(recurso, quiet=True)
 
-    print("=" * 60)
-    print("POS TAGGING CON SPACY")
-    print("=" * 60)
+# =====================================================
+# MODELO SPACY
+# =====================================================
 
-    print("Entrada :", CSV_ENTRADA)
-    print("Salida  :", CSV_SALIDA)
+SPACY_MODEL = "es_core_news_md"
 
-    print("=" * 60)
+nlp = spacy.load(SPACY_MODEL)
 
-    pipeline = SpacyPOSTagging(
-        ruta_entrada=CSV_ENTRADA,
-        ruta_salida=CSV_SALIDA
+# =====================================================
+# NLTK POS TAGGER
+# =====================================================
+
+MAPA_POS = {
+    "n": "NOUN",
+    "a": "ADJ",
+    "v": "VERB",
+    "r": "ADV",
+    "d": "DET",
+    "p": "PRON",
+    "s": "ADP",
+    "c": "CONJ",
+    "i": "INTJ",
+    "z": "NUM",
+    "f": "PUNCT",
+}
+
+
+def simplificar_tag(tag):
+
+    tag = tag.lower()
+
+    if tag.startswith("np"):
+        return "PROPN"
+
+    return MAPA_POS.get(tag[0], "X")
+
+
+print("Entrenando POS Tagger NLTK...")
+
+sents = [
+    [
+        (w, simplificar_tag(t))
+        for w, t in sent
+        if t
+    ]
+    for sent in cess_esp.tagged_sents()
+]
+
+default = DefaultTagger("NOUN")
+uni = UnigramTagger(sents, backoff=default)
+bi = BigramTagger(sents, backoff=uni)
+nltk_tagger = TrigramTagger(
+    sents,
+    backoff=bi
+)
+
+# =====================================================
+# RECURSOS NLTK
+# =====================================================
+
+stop_es = set(
+    stopwords.words("spanish")
+)
+
+stemmer = SnowballStemmer("spanish")
+
+# =====================================================
+# NLTK
+# =====================================================
+
+
+def procesar_nltk(texto):
+
+    tokens = word_tokenize(
+        texto,
+        language="spanish"
     )
 
-    resultado = pipeline.ejecutar()
+    pos_tags = nltk_tagger.tag(tokens)
 
-    print("\nPrimeros registros:")
+    tokens_validos = [
+        (tok, pos)
+        for tok, pos in pos_tags
+        if tok.lower() not in stop_es
+        and pos != "PUNCT"
+        and any(c.isalnum() for c in tok)
+    ]
 
-    print(resultado.head())
+    tokens_sin_stopwords = [
+        t
+        for t, _ in tokens_validos
+    ]
+
+    pos_sin_stopwords = tokens_validos
+
+    tokens_minusculas = [
+        t.lower()
+        for t in tokens_sin_stopwords
+    ]
+
+    lemas = [
+        stemmer.stem(t)
+        for t in tokens_minusculas
+    ]
+
+    texto_lematizado = " ".join(lemas)
+
+    return {
+        "tokens": tokens,
+        "pos_tags": pos_tags,
+        "entidades": [],
+        "lemas": lemas,
+        "texto_lematizado": texto_lematizado,
+    }
+
+# =====================================================
+# SPACY
+# =====================================================
+
+
+def procesar_spacy(texto):
+
+    doc = nlp(texto)
+
+    tokens = [
+        t.text
+        for t in doc
+    ]
+
+    pos_tags = [
+        (t.text, t.pos_)
+        for t in doc
+    ]
+
+    entidades = [
+        (
+            ent.text,
+            ent.label_
+        )
+        for ent in doc.ents
+    ]
+
+    tokens_validos = [
+        t
+        for t in doc
+        if not t.is_stop
+        and not t.is_punct
+    ]
+
+    lemas = [
+        t.lemma_.lower()
+        for t in tokens_validos
+    ]
+
+    texto_lematizado = " ".join(lemas)
+
+    return {
+        "tokens": tokens,
+        "pos_tags": pos_tags,
+        "entidades": entidades,
+        "lemas": lemas,
+        "texto_lematizado": texto_lematizado,
+    }
+
+# =====================================================
+# CARGA CSV
+# =====================================================
+
+print("Leyendo dataset...")
+
+df = pd.read_csv(
+    CSV_ENTRADA,
+    encoding="utf-8-sig"
+)
+
+if "review_summary_es" not in df.columns:
+    raise ValueError(
+        "No existe review_summary_es"
+    )
+
+if "id_resena" not in df.columns:
+    df["id_resena"] = range(
+        1,
+        len(df) + 1
+    )
+
+# =====================================================
+# COMPARACIÓN
+# =====================================================
+
+resultados = []
+
+for _, row in tqdm(
+    df.iterrows(),
+    total=len(df),
+    desc="Comparando"
+):
+
+    texto = str(
+        row["review_summary_es"]
+    )
+
+    nltk_result = procesar_nltk(texto)
+
+    spacy_result = procesar_spacy(texto)
+
+    resultados.append({
+
+        # originales
+        "id_resena":
+            row.get("id_resena", ""),
+
+        "movie_id":
+            row.get("movie_id", ""),
+
+        "primaryTitle":
+            row.get("primaryTitle", ""),
+
+        "review_summary_es":
+            texto,
+
+        # NLTK
+        "tokens_nltk":
+            str(nltk_result["tokens"]),
+
+        "pos_tags_nltk":
+            str(nltk_result["pos_tags"]),
+
+        "entidades_nltk":
+            str(nltk_result["entidades"]),
+
+        "lemas_nltk":
+            str(nltk_result["lemas"]),
+
+        "texto_lematizado_nltk":
+            nltk_result[
+                "texto_lematizado"
+            ],
+
+        # spaCy
+        "tokens_spacy":
+            str(spacy_result["tokens"]),
+
+        "pos_tags_spacy":
+            str(spacy_result["pos_tags"]),
+
+        "entidades_spacy":
+            str(spacy_result["entidades"]),
+
+        "lemas_spacy":
+            str(spacy_result["lemas"]),
+
+        "texto_lematizado_spacy":
+            spacy_result[
+                "texto_lematizado"
+            ],
+
+        # Métricas
+        "cantidad_tokens_nltk":
+            len(
+                nltk_result["tokens"]
+            ),
+
+        "cantidad_tokens_spacy":
+            len(
+                spacy_result["tokens"]
+            ),
+
+        "coincidencia_tokens":
+            nltk_result["tokens"]
+            ==
+            spacy_result["tokens"]
+    })
+
+# =====================================================
+# EXPORTAR
+# =====================================================
+
+resultado_df = pd.DataFrame(
+    resultados
+)
+
+resultado_df.to_csv(
+    CSV_SALIDA,
+    index=False,
+    encoding="utf-8-sig"
+)
+
+print("\nArchivo generado:")
+print(CSV_SALIDA)
+
+print(
+    f"Registros: {len(resultado_df):,}"
+)
