@@ -77,6 +77,8 @@ Página 13
 
 ---
 
+<h1 align="center">Segunda Parte - Análisis Semántico de Reseñas de Cine y Series en Español 🎬📽️🎞️</h1>
+
 ## 🏆 Rúbrica de evaluación
 
 | Peso | Criterio |
