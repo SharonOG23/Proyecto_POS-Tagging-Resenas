@@ -730,8 +730,18 @@ def main():
     comparar_word2vec(w2v, resumen)
 
     embeddings, indice = preparar_buscador(df, tokenizer, modelo, dispositivo)
+
+    filas_busqueda = []
     for consulta in CONSULTAS_EJEMPLO:
-        buscar_resenas(consulta, embeddings, indice, tokenizer, modelo, dispositivo)
+        resultados = buscar_resenas(
+            consulta, embeddings, indice, tokenizer, modelo, dispositivo
+        )
+        for resultado in resultados:
+            filas_busqueda.append({"consulta": consulta, **resultado})
+
+    pd.DataFrame(filas_busqueda).to_csv(
+        DIR_RESULTADOS / "busqueda_resenas.csv", index=False
+    )
 
     del modelo
     if torch.cuda.is_available():
