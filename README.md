@@ -98,9 +98,9 @@ El corpus final combina al menos 6.000 reseñas: 3.000 del Proyecto 1 (traducida
 
 El análisis se orienta a tres ejes:
 
-Géneros cinematográficos (Drama, Comedia, Acción, Terror, Animación, etc.)
-Polaridad de las reseñas (positiva, intermedia, negativa)
-Origen del texto (traducido vs. nativo)
+Géneros cinematográficos (Drama, Comedia, Acción, Terror, Animación, etc.)  
+Polaridad de las reseñas (positiva, intermedia, negativa)  
+Origen del texto (traducido vs. nativo)  
 
 [![MongoDB](https://img.shields.io/badge/Base%20de%20datos-MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)]()
 [![Scraping](https://img.shields.io/badge/Web%20Scraping-BeautifulSoup%20%7C%20Selenium-43B02A?style=for-the-badge&logo=python&logoColor=white)]()
