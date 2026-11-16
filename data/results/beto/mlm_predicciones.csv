@@ -1,0 +1,51 @@
+plantilla,ranking,prediccion,probabilidad,sentimiento_estimado
+El guion se siente [MASK] desde la primera escena.,1,bien,0.21525725722312927,neutra/otra
+El guion se siente [MASK] desde la primera escena.,2,así,0.020406432449817657,neutra/otra
+El guion se siente [MASK] desde la primera escena.,3,fresco,0.017877109348773956,neutra/otra
+El guion se siente [MASK] desde la primera escena.,4,cambiado,0.015492004342377186,neutra/otra
+El guion se siente [MASK] desde la primera escena.,5,mejor,0.014976738020777702,neutra/otra
+La fotografía resulta [MASK] en las escenas nocturnas.,1,fundamental,0.0915650948882103,neutra/otra
+La fotografía resulta [MASK] en las escenas nocturnas.,2,esencial,0.05493588745594025,neutra/otra
+La fotografía resulta [MASK] en las escenas nocturnas.,3,atractiva,0.05362620949745178,neutra/otra
+La fotografía resulta [MASK] en las escenas nocturnas.,4,importante,0.048882801085710526,neutra/otra
+La fotografía resulta [MASK] en las escenas nocturnas.,5,interesante,0.039195213466882706,positiva
+El ritmo de la segunda mitad es demasiado [MASK].,1,lento,0.35899803042411804,negativa
+El ritmo de la segunda mitad es demasiado [MASK].,2,rápido,0.18786585330963135,neutra/otra
+El ritmo de la segunda mitad es demasiado [MASK].,3,fuerte,0.03943692520260811,neutra/otra
+El ritmo de la segunda mitad es demasiado [MASK].,4,alto,0.03485029190778732,neutra/otra
+El ritmo de la segunda mitad es demasiado [MASK].,5,débil,0.02614768035709858,neutra/otra
+La química entre los dos protagonistas es [MASK].,1,intensa,0.20602278411388397,neutra/otra
+La química entre los dos protagonistas es [MASK].,2,fuerte,0.049939412623643875,neutra/otra
+La química entre los dos protagonistas es [MASK].,3,evidente,0.04720572009682655,neutra/otra
+La química entre los dos protagonistas es [MASK].,4,perfecta,0.02286231517791748,positiva
+La química entre los dos protagonistas es [MASK].,5,buena,0.0218777097761631,positiva
+El villano me pareció [MASK] por su forma de actuar.,1,conocido,0.22734200954437256,neutra/otra
+El villano me pareció [MASK] por su forma de actuar.,2,interesante,0.11543216556310654,positiva
+El villano me pareció [MASK] por su forma de actuar.,3,atractivo,0.07583565264940262,neutra/otra
+El villano me pareció [MASK] por su forma de actuar.,4,gracioso,0.0306963212788105,neutra/otra
+El villano me pareció [MASK] por su forma de actuar.,5,inteligente,0.022728748619556427,neutra/otra
+La banda sonora pasa casi [MASK] durante el clímax.,1,siempre,0.16561199724674225,neutra/otra
+La banda sonora pasa casi [MASK] durante el clímax.,2,inmediatamente,0.13942749798297882,neutra/otra
+La banda sonora pasa casi [MASK] durante el clímax.,3,completamente,0.12544208765029907,neutra/otra
+La banda sonora pasa casi [MASK] durante el clímax.,4,enteramente,0.07673007994890213,neutra/otra
+La banda sonora pasa casi [MASK] durante el clímax.,5,totalmente,0.0661800429224968,neutra/otra
+"Salí del cine con una sensación [MASK], la recomiendo.",1,extraña,0.15958695113658905,neutra/otra
+"Salí del cine con una sensación [MASK], la recomiendo.",2,rara,0.04953797534108162,neutra/otra
+"Salí del cine con una sensación [MASK], la recomiendo.",3,única,0.044002123177051544,neutra/otra
+"Salí del cine con una sensación [MASK], la recomiendo.",4,maravillosa,0.03475271910429001,positiva
+"Salí del cine con una sensación [MASK], la recomiendo.",5,terrible,0.029728837311267853,negativa
+"Salí del cine con una sensación [MASK], no la recomiendo.",1,extraña,0.24232074618339539,neutra/otra
+"Salí del cine con una sensación [MASK], no la recomiendo.",2,rara,0.09113307297229767,neutra/otra
+"Salí del cine con una sensación [MASK], no la recomiendo.",3,terrible,0.053765177726745605,negativa
+"Salí del cine con una sensación [MASK], no la recomiendo.",4,horrible,0.04626210778951645,negativa
+"Salí del cine con una sensación [MASK], no la recomiendo.",5,única,0.018444593995809555,neutra/otra
+"La película me mantuvo [MASK] hasta el final, quería ver más.",1,despierto,0.13523977994918823,neutra/otra
+"La película me mantuvo [MASK] hasta el final, quería ver más.",2,vivo,0.1340310424566269,neutra/otra
+"La película me mantuvo [MASK] hasta el final, quería ver más.",3,ocupado,0.06924573332071304,neutra/otra
+"La película me mantuvo [MASK] hasta el final, quería ver más.",4,viva,0.0624726340174675,neutra/otra
+"La película me mantuvo [MASK] hasta el final, quería ver más.",5,ocupada,0.04098692908883095,neutra/otra
+"La película me mantuvo [MASK] hasta el final, miré el reloj varias veces.",1,despierto,0.3317968547344208,neutra/otra
+"La película me mantuvo [MASK] hasta el final, miré el reloj varias veces.",2,despierta,0.09653463214635849,neutra/otra
+"La película me mantuvo [MASK] hasta el final, miré el reloj varias veces.",3,vivo,0.04955713078379631,neutra/otra
+"La película me mantuvo [MASK] hasta el final, miré el reloj varias veces.",4,viva,0.037495046854019165,neutra/otra
+"La película me mantuvo [MASK] hasta el final, miré el reloj varias veces.",5,ocupado,0.03713403269648552,neutra/otra
