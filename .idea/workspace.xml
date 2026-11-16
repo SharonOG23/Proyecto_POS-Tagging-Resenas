@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="71e483a3-f780-42a3-8eeb-761895bbf436" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/USO_DE_IA.md" beforeDir="false" afterPath="$PROJECT_DIR$/USO_DE_IA.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/Data Process/comparacion_nltk_spacy_resultados.csv" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +18,17 @@
       <list>
         <option value="Python Script" />
       </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
     </option>
   </component>
   <component name="Git.Settings">
@@ -50,6 +60,7 @@
     &quot;Python.Comparacion_Spacy_NLTK.executor&quot;: &quot;Run&quot;,
     &quot;Python.comentarios_aleatorios.executor&quot;: &quot;Run&quot;,
     &quot;Python.metrics.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pos_tagging_nltk.executor&quot;: &quot;Run&quot;,
     &quot;Python.pos_tagging_spacy.executor&quot;: &quot;Run&quot;,
     &quot;Python.traduccion.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -63,6 +74,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -91,7 +103,9 @@
       <workItem from="1791958143722" duration="10000" />
       <workItem from="1791963479335" duration="2163000" />
       <workItem from="1791965742661" duration="788000" />
-      <workItem from="1791999333582" duration="8105000" />
+      <workItem from="1791999333582" duration="8248000" />
+      <workItem from="1792022252972" duration="4883000" />
+      <workItem from="1793752553084" duration="138000" />
     </task>
     <servers />
   </component>
@@ -101,6 +115,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Proyecto_POS_Tagging_Resenas$metrics.coverage" NAME="metrics Coverage Results" MODIFIED="1791965607321" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Proyecto_POS_Tagging_Resenas$traduccion.coverage" NAME="traduccion Coverage Results" MODIFIED="1791953834404" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/Proyecto_POS_Tagging_Resenas$pos_tagging_nltk.coverage" NAME="pos_tagging_nltk Coverage Results" MODIFIED="1792022860590" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Proyecto_POS_Tagging_Resenas$Comparacion_Spacy_NLTK.coverage" NAME="Comparacion_Spacy_NLTK Coverage Results" MODIFIED="1791957342139" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Proyecto_POS_Tagging_Resenas$comentarios_aleatorios.coverage" NAME="comentarios_aleatorios Coverage Results" MODIFIED="1791953536226" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Proyecto_POS_Tagging_Resenas$pos_tagging_spacy.coverage" NAME="pos_tagging_spacy Coverage Results" MODIFIED="1791956307626" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
