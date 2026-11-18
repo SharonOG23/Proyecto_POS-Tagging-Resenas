@@ -1,67 +1,61 @@
-"""Métricas morfosintácticas a partir de pos_analysis_2.csv y processed_es.csv.
-Ejecutar: .venv/Scripts/python.exe src/metrics.py
+"""Métricas morfosintácticas por reseña, exportadas a JSON para MongoDB.
+Ejecutar: .venv/Scripts/python.exe src/metrics_fa.py
 """
 
+import ast
+import json
 import sys
-import warnings
+from pathlib import Path
 
-import matplotlib
-
-matplotlib.use("Agg")  # El analista usa un backend sin ventana para guardar PNG.
-
-import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns
-import spacy
-
-from config import CONFIG, METRICAS
 
 sys.stdout.reconfigure(encoding="utf-8")
-warnings.filterwarnings("ignore")
 
-# El analista lee la configuración del análisis.
-EXCLUIR = set(METRICAS["etiquetas_excluidas"])
-NEGACIONES = set(METRICAS["negaciones"])
-INTENSIDAD = set(METRICAS["adverbios_intensidad"])
-BASE = METRICAS["base_normalizacion"]
-BLOQUE = METRICAS["tamano_bloque"]
-FIGURAS = METRICAS["carpeta_figuras"]
+RAIZ = Path(__file__).resolve().parent.parent
+RUTA_MOVIES = RAIZ / "data" / "processed" / "movies_unificado.csv"
+RUTA_POS = RAIZ / "data" / "results" / "comparacion_spacy_nltk.csv"
+RUTA_SALIDA = RAIZ / "data" / "results" / "metricas_mongodb.json"
+
+EXCLUIR = {"PUNCT", "SPACE"}
+NEGACIONES = {
+    "no", "ni", "nunca", "jamás", "nada", "nadie", "ninguno",
+    "ninguna", "sin", "tampoco",
+}
+INTENSIDAD = {"muy", "demasiado", "bastante", "tan", "mucho", "poco"}
+BASE = 100
+BLOQUE = 50
 
 
 def cargar_datos():
-    """Carga los tokens POS, los une con los metadatos y crea la polaridad."""
-    tokens = pd.read_csv(METRICAS["ruta_tokens"])
-    meta = pd.read_csv(METRICAS["ruta_metadatos"]).reset_index(names="review_id")
-    # El analista clasifica la polaridad según el rating.
-    meta["polaridad"] = meta["rating"].apply(lambda r: "negativa" if r <= METRICAS["rating_negativo"]
-                                             else ("positiva" if r >= METRICAS["rating_positivo"] else "neutra"))
-    # El analista numera cada token dentro de su reseña para alinearlo con spaCy.
-    tokens = tokens.sort_values("review_id").copy()
-    tokens["pos_en_resena"] = tokens.groupby("review_id").cumcount()
-    columnas = ["review_id", "main_genre", "year", "is_spoiler", "n_words", "review_text_es", "polaridad"]
-    return tokens.merge(meta[columnas], on="review_id", how="inner"), meta
+    """Une movies_unificado con los POS ya calculados en comparacion_spacy_nltk.csv."""
+    meta = pd.read_csv(RUTA_MOVIES).reset_index(names="id_resena")
+    pos = pd.read_csv(RUTA_POS)
+    if len(meta) != len(pos):
+        raise ValueError("movies_unificado.csv y comparacion_spacy_nltk.csv no coinciden en filas")
+
+    filas = []
+    for review_id, etiquetas in zip(meta["id_resena"], pos["pos_tags_spacy"]):
+        for token, etiqueta in ast.literal_eval(str(etiquetas)):
+            filas.append(
+                {
+                    "review_id": review_id,
+                    "pos_en_resena": 0,
+                    "token": token,
+                    "pos_spacy": etiqueta,
+                    "lema": str(token).lower(),
+                    "persona": "",
+                    "num_oracion": 0,
+                }
+            )
+
+    tabla = pd.DataFrame(filas)
+    print(f"Reseñas: {len(meta):,} | tokens: {len(tabla):,}")
+    return tabla, meta
 
 
 def enriquecer_spacy(tabla, meta):
-    """Añade lema, persona y oración con spaCy usando una caché en disco."""
-    ruta = METRICAS["ruta_cache"]
-    if ruta.exists():
-        cache = pd.read_csv(ruta)
-    else:
-        nlp = spacy.load(METRICAS["modelo_spacy"], disable=["ner"])
-        filas = []
-        for review_id, doc in zip(meta["review_id"], nlp.pipe(meta["review_text_es"], batch_size=64)):
-            numero = {t.i: i for i, s in enumerate(doc.sents) for t in s}
-            tamano = {t.i: len(s) for s in doc.sents for t in s}
-            for token in doc:
-                persona = token.morph.get("Person")
-                filas.append({"review_id": review_id, "pos_en_resena": token.i, "lema": token.lemma_.lower(),
-                              "persona": persona[0] if persona else "", "num_oracion": numero[token.i],
-                              "tam_oracion": tamano[token.i]})
-        cache = pd.DataFrame(filas)
-        ruta.parent.mkdir(parents=True, exist_ok=True)
-        cache.to_csv(ruta, index=False, encoding="utf-8")
-    return tabla.merge(cache, on=["review_id", "pos_en_resena"], how="left")
+    """Los POS y lemas ya están en el CSV; no se necesita spaCy."""
+    return tabla
 
 
 def metricas_por_resena(tabla):
@@ -82,6 +76,40 @@ def metricas_por_resena(tabla):
     metricas["ttr"] = tabla.groupby("review_id")["lema"].apply(lambda l: l.head(BLOQUE).nunique() / min(len(l), BLOQUE))
     metricas["long_oracion"] = metricas["total"] / tabla.groupby("review_id")["num_oracion"].nunique()
     return metricas.fillna(0)
+
+
+def exportar_json(metricas):
+    """Escribe un JSON array con id_resena y metricas para MongoDB."""
+    registros = []
+    for id_resena, fila in metricas.iterrows():
+        total = float(fila["total"])
+        sustantivos = float(fila["NOUN"])
+        registros.append(
+            {
+                "id_resena": int(id_resena),
+                "metricas": {
+                    "num_palabras": int(fila["total"]),
+                    "densidad_lexica": float(round(
+                        (fila["NOUN"] + fila["VERB"] + fila["ADJ"] + fila["ADV"]) / total, 3
+                    )) if total else 0.0,
+                    "ratio_verbos_sustantivos": float(round(
+                        fila["VERB"] / sustantivos, 3
+                    )) if sustantivos else 0.0,
+                    "indice_adjetivacion": float(round(
+                        fila["ADJ"] / total * BASE, 2
+                    )) if total else 0.0,
+                    "indice_negacion": float(round(
+                        fila["negaciones"] / total * BASE, 2
+                    )) if total else 0.0,
+                },
+            }
+        )
+
+    RUTA_SALIDA.parent.mkdir(parents=True, exist_ok=True)
+    with open(RUTA_SALIDA, "w", encoding="utf-8") as archivo:
+        json.dump(registros, archivo, ensure_ascii=False, indent=2)
+    print(f"JSON guardado en {RUTA_SALIDA} ({len(registros):,} documentos)")
+    return RUTA_SALIDA
 
 
 def por_grupo(metricas, meta, columna):
@@ -271,24 +299,10 @@ def comparar_nltk(tabla):
 
 
 def main():
-    """Ejecuta el análisis completo y genera tablas, figuras e interpretaciones."""
-    print("=" * 70)
-    print("ANÁLISIS DE MÉTRICAS MORFOSINTÁCTICAS - POS_Tagging")
-    print("=" * 70)
+    """Calcula las métricas por reseña y exporta el JSON para MongoDB."""
     tabla, meta = cargar_datos()
-    tabla = enriquecer_spacy(tabla, meta)
-    metricas = metricas_por_resena(tabla)
-    print(f"\nReseñas analizadas: {len(metricas)}")
-    print(f"Tokens analizados (sin puntuación): {int(metricas['total'].sum())}")
-    eje_a(metricas, meta)
-    eje_b(tabla, metricas, meta)
-    eje_c(metricas, meta)
-    eje_d(metricas, meta)
-    print("\n" + "=" * 70)
-    print("COMPARACIÓN NLTK vs spaCy")
-    print("=" * 70)
-    comparar_nltk(tabla)
-    print("\nFiguras guardadas en:", FIGURAS.resolve())
+    metricas = metricas_por_resena(tabla).reindex(range(len(meta)), fill_value=0)
+    exportar_json(metricas)
 
 
 if __name__ == "__main__":
