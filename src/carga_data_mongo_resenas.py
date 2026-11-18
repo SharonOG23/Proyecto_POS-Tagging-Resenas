@@ -1,9 +1,18 @@
 """
 Importador de reseñas a MongoDB (base `movies_db`, colección `resenas`).
 
-Une dos CSV del proyecto en un solo documento por reseña:
-    data/processed/resenas_es.csv            -> datos de la reseña
-    data/results/comparacion_spacy_nltk.csv  -> resultados de NLTK y spaCy
+Lee un solo CSV que ya trae las columnas de movies_unificado.csv + el análisis
+de NLTK y spaCy, y guarda un documento por reseña:
+    data/results/comparacion_spacy_nltk.csv
+
+Campos de cada documento (26 + _id):
+    review_summary_es, review_summary, primaryTitle, genre, rating, valoracion,
+    Fecha_comentario, periodo, Tipo obra, Fuente,
+    tokens_nltk, pos_tags_nltk, entidades_nltk, organizaciones_nltk,
+    lemas_nltk, texto_lematizado_nltk,
+    tokens_spacy, pos_tags_spacy, entidades_spacy, organizaciones_spacy,
+    lemas_spacy, texto_lematizado_spacy,
+    cantidad_tokens_nltk, cantidad_tokens_spacy, coincidencia_tokens, entidades_en_comun
 
 Instalación:
     pip install pymongo python-dotenv pandas
@@ -15,11 +24,10 @@ Configuración (archivo atlas-credentials.env en la raíz del proyecto):
     MONGO_COLLECTION=resenas        # opcional (por defecto resenas)
 
 Uso:
-    python src/MongoDB_importador.py --diagnostico      # muestra columnas reales de los CSV
+    python src/MongoDB_importador.py --diagnostico      # muestra qué campos tiene el CSV
     python src/MongoDB_importador.py --dry-run          # solo prepara y muestra un documento
     python src/MongoDB_importador.py --vaciar           # borra la colección y vuelve a importar
     python src/MongoDB_importador.py                    # importa
-    python src/MongoDB_importador.py --clave _id        # unir los CSV por una columna común
 
 Es IDEMPOTENTE: la importación hace "upsert" por _id, así que puedes ejecutarla
 varias veces sin duplicar documentos.
@@ -47,49 +55,67 @@ from pymongo.errors import PyMongoError
 # Este script vive en <RAIZ>/src/, así que la raíz del proyecto está un nivel arriba.
 RAIZ = Path(__file__).resolve().parents[1]
 RUTA_ENV = RAIZ / "atlas-credentials.env"
-CSV_RESENAS = RAIZ / "data" / "processed" / "resenas_es.csv"
-CSV_NLP = RAIZ / "data" / "results" / "comparacion_spacy_nltk.csv"
+CSV_ENTRADA = RAIZ / "data" / "results" / "comparacion_spacy_nltk.csv"
 
-# Campos que se importan desde resenas_es.csv
-CAMPOS_RESENAS = [
-    "_id",
+# Campos que se importan (en este orden)
+CAMPOS = [
+    # --- Datos de la reseña (movies_unificado.csv) ---
     "review_summary_es",
-    "review_summary",       # texto original en inglés (solo reseñas traducidas)
+    "review_summary",
     "primaryTitle",
     "genre",
-    "release_date",
-    "rating",               # escala normalizada 1-10
-    "valoracion",           # positiva | negativa | intermedia
-    "periodo",              # antes_2010 | 2010_en_adelante
-    "fecha_resena",
-]
-
-# Campos que se importan desde comparacion_spacy_nltk.csv
-CAMPOS_NLP = [
+    "rating",
+    "valoracion",              # positiva | intermedia | negativa
+    "Fecha_comentario",        # año
+    "periodo",                 # antes_2010 | 2010_o_despues
+    "Tipo obra",               # Pelicula | Serie
+    "Fuente",
+    # --- NLTK ---
     "tokens_nltk",
     "pos_tags_nltk",
+    "entidades_nltk",
+    "organizaciones_nltk",
     "lemas_nltk",
     "texto_lematizado_nltk",
+    # --- spaCy ---
     "tokens_spacy",
     "pos_tags_spacy",
+    "entidades_spacy",
+    "organizaciones_spacy",
     "lemas_spacy",
     "texto_lematizado_spacy",
+    # --- Comparación ---
     "cantidad_tokens_nltk",
     "cantidad_tokens_spacy",
+    "coincidencia_tokens",
+    "entidades_en_comun",
 ]
 
 # Tipo de cada campo no textual (los demás se guardan como texto)
-CAMPOS_ENTEROS = {"release_date", "cantidad_tokens_nltk", "cantidad_tokens_spacy"}
+CAMPOS_ENTEROS = {
+    "Fecha_comentario",
+    "cantidad_tokens_nltk", "cantidad_tokens_spacy",
+}
 CAMPOS_NUMERICOS = {"rating"}
-CAMPOS_FECHA = {"fecha_resena"}
+CAMPOS_BOOLEANOS = {"coincidencia_tokens"}
+
 # En el CSV las listas vienen como texto, p. ej. "['el', 'laberinto']"
 CAMPOS_LISTA = {
     "tokens_nltk", "pos_tags_nltk", "lemas_nltk",
     "tokens_spacy", "pos_tags_spacy", "lemas_spacy",
 }
 
-# Columnas que se prueban (en este orden) para unir ambos CSV si no se indica --clave
-CLAVES_POSIBLES = ["_id", "id_resena", "id", "review_id"]
+# Entidades: en el CSV vienen como "Johnny Depp (PER); Rusia (LOC)"
+#   -> en Mongo: [{"texto": "Johnny Depp", "tipo": "PER"}, {"texto": "Rusia", "tipo": "LOC"}]
+CAMPOS_ENTIDADES = {"entidades_nltk", "entidades_spacy", "entidades_en_comun"}
+
+# Organizaciones: en el CSV vienen como "ONU; Netflix"
+#   -> en Mongo: ["ONU", "Netflix"]
+CAMPOS_LISTA_TEXTO = {"organizaciones_nltk", "organizaciones_spacy"}
+
+# Valores que significan "no hay dato"
+DESCONOCIDO = {"desconocido", "nan", "none", "null", ""}
+SIN_ENTIDADES = "sin entidades"
 
 
 # --------------------------------------------------------------------------
@@ -108,22 +134,25 @@ def _entero(valor: Any) -> Optional[int]:
     try:
         return int(float(valor))
     except (TypeError, ValueError):
-        return None
+        return None  # 'desconocido' -> null
 
 
 def _numero(valor: Any):
     """Número: devuelve int si no tiene decimales (9.0 -> 9), si no float."""
     try:
-        f = float(valor)
+        f = float(str(valor).replace(",", "."))
     except (TypeError, ValueError):
-        return None
+        return None  # 'desconocido' -> null
     return int(f) if f.is_integer() else f
 
 
-def _fecha(valor: Any):
-    """Convierte a datetime (ISODate en Mongo); None si no se puede interpretar."""
-    f = pd.to_datetime(valor, errors="coerce")
-    return None if pd.isna(f) else f.to_pydatetime()
+def _booleano(valor: Any) -> Optional[bool]:
+    texto = str(valor).strip().lower()
+    if texto in ("true", "1", "si", "sí", "verdadero"):
+        return True
+    if texto in ("false", "0", "no", "falso"):
+        return False
+    return None
 
 
 def _listificar(obj: Any) -> Any:
@@ -135,7 +164,7 @@ def _listificar(obj: Any) -> Any:
 
 def _lista(valor: Any):
     """
-    Convierte el texto "['a', 'b']" o '[["a","DET"]]' en una lista real.
+    Convierte el texto "['a', 'b']" o "[('el', 'DET')]" en una lista real.
     Si no se puede interpretar, se conserva el texto original para no perder datos.
     """
     texto = str(valor).strip()
@@ -148,23 +177,40 @@ def _lista(valor: Any):
             return texto
 
 
-def _object_id(valor: Any) -> Optional[ObjectId]:
-    """Extrae un ObjectId de un texto ('64f...' o "ObjectId('64f...')"); None si no hay."""
-    if isinstance(valor, ObjectId):
-        return valor
-    if _vacio(valor):
-        return None
-    m = re.search(r"[0-9a-fA-F]{24}", str(valor))
-    return ObjectId(m.group(0)) if m else None
+def _entidades(valor: Any) -> List[Dict[str, str]]:
+    """'Johnny Depp (PER); Rusia (LOC)' -> [{'texto': 'Johnny Depp', 'tipo': 'PER'}, ...]"""
+    texto = str(valor).strip()
+    if texto.lower() in DESCONOCIDO or texto.lower() == SIN_ENTIDADES:
+        return []
+    resultado = []
+    for parte in texto.split(";"):
+        parte = parte.strip()
+        if not parte:
+            continue
+        m = re.match(r"^(.*)\s\(([A-Z]+)\)$", parte)
+        if m:
+            resultado.append({"texto": m.group(1).strip(), "tipo": m.group(2)})
+        else:
+            resultado.append({"texto": parte, "tipo": None})
+    return resultado
+
+
+def _lista_texto(valor: Any) -> List[str]:
+    """'Johnny Depp; Ana Torrent' -> ['Johnny Depp', 'Ana Torrent']; 'sin entidades' -> []"""
+    texto = str(valor).strip()
+    if texto.lower() in DESCONOCIDO or texto.lower() == SIN_ENTIDADES:
+        return []
+    return [p.strip() for p in texto.split(";") if p.strip()]
 
 
 def _id_determinista(doc: Dict[str, Any]) -> ObjectId:
     """
-    ObjectId estable generado a partir del contenido (título + fecha + reseña).
-    Se usa solo si el CSV no trae _id, para que re-importar no duplique documentos.
+    ObjectId estable generado a partir del contenido de la reseña.
+    Así re-importar el mismo CSV no duplica documentos.
     """
     base = "|".join(
-        str(doc.get(k, "")) for k in ("primaryTitle", "fecha_resena", "review_summary_es")
+        str(doc.get(k, ""))
+        for k in ("primaryTitle", "Fecha_comentario", "review_summary_es", "Fuente")
     )
     return ObjectId(hashlib.sha1(base.encode("utf-8")).digest()[:12])
 
@@ -178,14 +224,12 @@ class MongoResenas:
     def __init__(
         self,
         ruta_env: Path = RUTA_ENV,
-        ruta_resenas: Path = CSV_RESENAS,
-        ruta_nlp: Path = CSV_NLP,
-        clave_union: Optional[str] = None,
+        ruta_csv: Path = CSV_ENTRADA,
+        campos: Optional[List[str]] = None,
     ):
         self.ruta_env = Path(ruta_env)
-        self.ruta_resenas = Path(ruta_resenas)
-        self.ruta_nlp = Path(ruta_nlp)
-        self.clave_union = clave_union  # None = autodetectar; si no hay, une por posición
+        self.ruta_csv = Path(ruta_csv)
+        self.campos = campos or CAMPOS
         self.client: Optional[MongoClient] = None
         self.db = None
         self.coleccion = None
@@ -230,104 +274,41 @@ class MongoResenas:
     def __exit__(self, *exc):
         self.cerrar()
 
-    # ---------------- Lectura y unión de los CSV ----------------
-    @staticmethod
-    def _leer_csv(ruta: Path) -> pd.DataFrame:
-        if not ruta.exists():
-            raise FileNotFoundError(f"No se encontró el archivo: {ruta}")
+    # ---------------- Lectura del CSV ----------------
+    def _leer_csv(self) -> pd.DataFrame:
+        if not self.ruta_csv.exists():
+            raise FileNotFoundError(f"No se encontró el archivo: {self.ruta_csv}")
         # Todo como texto: la conversión de tipos se hace después, campo a campo
-        df = pd.read_csv(ruta, encoding="utf-8-sig", dtype=str)
-        # Limpia los nombres de columna (espacios, comillas) e ignora mayúsculas/minúsculas
-        canonicos = {c.lower(): c for c in CAMPOS_RESENAS + CAMPOS_NLP}
-        limpias = [str(c).strip().strip("\"'").strip() for c in df.columns]
+        df = pd.read_csv(self.ruta_csv, encoding="utf-8-sig", dtype=str, keep_default_na=False)
+        # Limpia los nombres de columna (BOM, espacios, comillas) e ignora mayúsculas/minúsculas
+        canonicos = {c.lower(): c for c in self.campos}
+        limpias = [str(c).replace("﻿", "").strip().strip("\"'").strip() for c in df.columns]
         df.columns = [canonicos.get(c.lower(), c) for c in limpias]
         return df
 
-    def _detectar_clave(self, df_res: pd.DataFrame, df_nlp: pd.DataFrame) -> Optional[str]:
-        """Columna común para unir ambos CSV (la indicada o la primera candidata común)."""
-        if self.clave_union:
-            for nombre, df in (("resenas_es", df_res), ("comparacion_spacy_nltk", df_nlp)):
-                if self.clave_union not in df.columns:
-                    raise ValueError(f"La clave '{self.clave_union}' no existe en {nombre}.csv")
-            return self.clave_union
-        for c in CLAVES_POSIBLES:
-            if c in df_res.columns and c in df_nlp.columns:
-                return c
-        return None
-
     def cargar_datos(self, limite: Optional[int] = None) -> pd.DataFrame:
-        """Lee los CSV y devuelve un único DataFrame (una fila por reseña) SOLO con los campos pedidos."""
-        df_res = self._leer_csv(self.ruta_resenas)
-        if self.ruta_nlp.exists():
-            df_nlp = self._leer_csv(self.ruta_nlp)
-        else:
-            print(f"[!] No existe {self.ruta_nlp.name}; se omiten sus columnas.")
-            df_nlp = pd.DataFrame()
-        print(f"[+] {self.ruta_resenas.name}: {len(df_res)} filas | {self.ruta_nlp.name}: {len(df_nlp)} filas")
+        """Lee el CSV y devuelve SOLO los campos configurados (en su orden)."""
+        df = self._leer_csv()
+        print(f"[+] {self.ruta_csv.name}: {len(df):,} filas")
 
-        # Columnas NLP: se toman de comparacion_spacy_nltk.csv; si alguna no está ahí
-        # pero sí en resenas_es.csv, se toma de resenas_es.csv.
-        nlp_en_nlp = [c for c in CAMPOS_NLP if c in df_nlp.columns]
-        nlp_en_res = [c for c in CAMPOS_NLP if c not in df_nlp.columns and c in df_res.columns]
-
-        faltan = [c for c in CAMPOS_RESENAS if c not in df_res.columns]
-        faltan += [c for c in CAMPOS_NLP if c not in nlp_en_nlp + nlp_en_res]
+        faltan = [c for c in self.campos if c not in df.columns]
         if faltan:
-            print(f"[!] Columnas no encontradas en ningún CSV (se omiten): {faltan}")
+            print(f"[!] Campos que no están en el CSV (se guardan como null): {faltan}")
             print("    Ejecuta con --diagnostico para ver los nombres reales de las columnas.")
+            for c in faltan:
+                df[c] = None
 
-        clave = self._detectar_clave(df_res, df_nlp) if nlp_en_nlp else None
-
-        # Solo los campos pedidos (el resto de columnas de los CSV NO se importa)
-        cols_res = [c for c in CAMPOS_RESENAS + nlp_en_res if c in df_res.columns]
-        if clave and clave not in cols_res:
-            cols_res.append(clave)
-        res = df_res[cols_res].copy()
-
-        if not nlp_en_nlp:
-            unido = res
-        elif clave:
-            # Unión por columna común (left: se conservan todas las reseñas)
-            nlp = df_nlp[nlp_en_nlp + ([clave] if clave not in nlp_en_nlp else [])]
-            nlp = nlp.drop_duplicates(subset=clave)
-            unido = res.merge(nlp, on=clave, how="left")
-            sin_nlp = int(unido[nlp_en_nlp].isna().all(axis=1).sum())
-            print(f"[+] Unión por '{clave}': {sin_nlp} reseñas sin análisis NLP")
-            if clave not in CAMPOS_RESENAS:
-                unido = unido.drop(columns=[clave])
-        else:
-            # Sin columna común: se asume que ambos archivos tienen el MISMO orden de filas
-            if len(res) != len(df_nlp):
-                raise ValueError(
-                    "Los CSV no comparten una columna clave y tienen distinto número de filas "
-                    f"({len(res)} vs {len(df_nlp)}). Indica la columna común con --clave."
-                )
-            print("[!] Sin columna clave común: se unen por posición de fila (mismo orden).")
-            unido = pd.concat(
-                [res.reset_index(drop=True), df_nlp[nlp_en_nlp].reset_index(drop=True)], axis=1
-            )
-
-        return unido.head(limite) if limite else unido
+        df = df[self.campos]
+        return df.head(limite) if limite else df
 
     def diagnostico(self):
-        """Muestra columnas reales de cada CSV y cuáles de las pedidas existen (sin conectar a Mongo)."""
-        df_res = self._leer_csv(self.ruta_resenas)
-        df_nlp = self._leer_csv(self.ruta_nlp) if self.ruta_nlp.exists() else pd.DataFrame()
-        for nombre, df, campos in (
-            (self.ruta_resenas.name, df_res, CAMPOS_RESENAS),
-            (self.ruta_nlp.name, df_nlp, CAMPOS_NLP),
-        ):
-            print(f"\n== {nombre}: {len(df)} filas ==")
-            print("Columnas del archivo :", list(df.columns))
-            print("Pedidas que SÍ están :", [c for c in campos if c in df.columns])
-            print("Pedidas que FALTAN   :", [c for c in campos if c not in df.columns])
-        print("\nColumnas NLP presentes en", self.ruta_resenas.name, ":",
-              [c for c in CAMPOS_NLP if c in df_res.columns])
-        try:
-            clave = self._detectar_clave(df_res, df_nlp)
-        except ValueError as e:
-            clave = f"ERROR: {e}"
-        print("Clave de unión       :", clave or "ninguna (se uniría por posición de fila)")
+        """Muestra las columnas reales del CSV y cuáles de las pedidas existen (sin conectar a Mongo)."""
+        df = self._leer_csv()
+        print(f"\n== {self.ruta_csv.name}: {len(df):,} filas ==")
+        print("Columnas del archivo  :", list(df.columns))
+        print("Pedidas que SÍ están  :", [c for c in self.campos if c in df.columns])
+        print("Pedidas que FALTAN    :", [c for c in self.campos if c not in df.columns])
+        print("Columnas que NO se importan:", [c for c in df.columns if c not in self.campos])
 
     def vaciar(self) -> bool:
         """Borra TODOS los documentos de la colección (pide confirmación). Requiere conectar()."""
@@ -343,30 +324,32 @@ class MongoResenas:
     # ---------------- Preparación de documentos ----------------
     @staticmethod
     def _convertir(campo: str, valor: Any):
+        """Convierte un valor del CSV al tipo correcto para Mongo."""
+        if campo in CAMPOS_ENTIDADES:
+            return [] if _vacio(valor) else _entidades(valor)
+        if campo in CAMPOS_LISTA_TEXTO:
+            return [] if _vacio(valor) else _lista_texto(valor)
         if _vacio(valor):
             return None
         if campo in CAMPOS_ENTEROS:
             return _entero(valor)
         if campo in CAMPOS_NUMERICOS:
             return _numero(valor)
-        if campo in CAMPOS_FECHA:
-            return _fecha(valor)
+        if campo in CAMPOS_BOOLEANOS:
+            return _booleano(valor)
         if campo in CAMPOS_LISTA:
             return _lista(valor)
-        return str(valor)
+        return str(valor).strip()
 
     def preparar_documentos(self, df: pd.DataFrame) -> List[Dict[str, Any]]:
-        """Convierte cada fila en un documento con los tipos correctos (omite campos vacíos)."""
+        """
+        Convierte cada fila en un documento con los 26 campos y los tipos correctos.
+        Todos los documentos tienen los mismos campos (los vacíos quedan como null o []).
+        """
         documentos = []
         for fila in df.to_dict("records"):
-            doc: Dict[str, Any] = {}
-            for campo, valor in fila.items():
-                if campo == "_id":
-                    continue  # el _id se resuelve aparte
-                convertido = self._convertir(campo, valor)
-                if convertido is not None:
-                    doc[campo] = convertido
-            doc["_id"] = _object_id(fila.get("_id")) or _id_determinista(doc)
+            doc: Dict[str, Any] = {campo: self._convertir(campo, fila.get(campo)) for campo in self.campos}
+            doc = {"_id": _id_determinista(doc), **doc}
             documentos.append(doc)
         return documentos
 
@@ -377,8 +360,14 @@ class MongoResenas:
             raise RuntimeError("Llama a conectar() (o usa 'with') antes de importar.")
 
         documentos = self.preparar_documentos(self.cargar_datos(limite))
-        total = {"insertados": 0, "actualizados": 0}
 
+        # Reseñas idénticas generan el mismo _id: se deja una sola
+        unicos = list({d["_id"]: d for d in documentos}.values())
+        if len(unicos) < len(documentos):
+            print(f"[!] Reseñas duplicadas omitidas: {len(documentos) - len(unicos):,}")
+        documentos = unicos
+
+        total = {"insertados": 0, "actualizados": 0}
         for i in range(0, len(documentos), lote):
             operaciones = [
                 ReplaceOne({"_id": d["_id"]}, d, upsert=True) for d in documentos[i : i + lote]
@@ -394,7 +383,7 @@ class MongoResenas:
         )
         ejemplo = self.coleccion.find_one()
         if ejemplo:
-            print("[+] Campos de un documento:", list(ejemplo.keys()))
+            print(f"[+] Campos de un documento ({len(ejemplo)}):", list(ejemplo.keys()))
         return total
 
 
@@ -404,20 +393,18 @@ class MongoResenas:
 def main():
     p = argparse.ArgumentParser(description="Importa reseñas y análisis NLP a MongoDB")
     p.add_argument("--env", default=str(RUTA_ENV), help="ruta del archivo .env")
-    p.add_argument("--resenas", default=str(CSV_RESENAS))
-    p.add_argument("--nlp", default=str(CSV_NLP))
-    p.add_argument("--clave", default=None, help="columna común para unir ambos CSV")
+    p.add_argument("--csv", default=str(CSV_ENTRADA), help="ruta de comparacion_spacy_nltk.csv")
     p.add_argument("--lote", type=int, default=1000, help="documentos por escritura")
     p.add_argument("--limite", type=int, default=None, help="importar solo las N primeras (pruebas)")
     p.add_argument("--diagnostico", action="store_true",
-                   help="muestra las columnas reales de los CSV y cuáles de las pedidas faltan")
+                   help="muestra las columnas reales del CSV y cuáles de las pedidas faltan")
     p.add_argument("--vaciar", action="store_true",
                    help="borra los documentos de la colección antes de importar (pide confirmación)")
     p.add_argument("--dry-run", action="store_true",
                    help="no se conecta a Mongo: prepara los datos y muestra un documento")
     args = p.parse_args()
 
-    importador = MongoResenas(args.env, args.resenas, args.nlp, args.clave)
+    importador = MongoResenas(args.env, args.csv)
 
     if args.diagnostico:
         importador.diagnostico()
@@ -426,7 +413,7 @@ def main():
     if args.dry_run:
         docs = importador.preparar_documentos(importador.cargar_datos(args.limite or 3))
         print(f"[✓] {len(docs)} documentos preparados. Ejemplo:")
-        print(json.dumps(docs[0], indent=2, ensure_ascii=False, default=str)[:3000])
+        print(json.dumps(docs[0], indent=2, ensure_ascii=False, default=str)[:4000])
         return
 
     with importador:
