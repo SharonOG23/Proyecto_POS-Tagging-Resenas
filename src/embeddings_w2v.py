@@ -28,6 +28,8 @@ calcos de traducción en el vecindario de las reseñas traducidas?
 """
 
 import re
+import json
+import zlib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -37,6 +39,11 @@ from nltk.corpus import stopwords
 from gensim.models import Word2Vec
 from sklearn.manifold import TSNE
 from sklearn.metrics.pairwise import cosine_similarity
+ 
+ 
+def _hash_estable(texto):
+    """Hash fijo para que Word2Vec dé los mismos vectores en cada ejecución."""
+    return zlib.adler32(texto.encode("utf-8"))
  
  
 class Clase_W2V:
@@ -53,11 +60,11 @@ class Clase_W2V:
     # Analogías: (positivas, negativas, descripción)
     # "actor - hombre + mujer"  ->  positivas=[actor, mujer], negativas=[hombre]
     ANALOGIAS = [
-        (["actor", "mujer"],         ["hombre"],  "actor - hombre + mujer"),
-        (["terror", "risa"],         ["miedo"],   "terror - miedo + risa"),
-        (["película", "televisión"], ["cine"],    "película - cine + televisión"),
-        (["excelente", "mala"],      ["buena"],   "excelente - buena + mala"),
-        (["director", "actriz"],     ["actor"],   "director - actor + actriz"),
+        (["actor", "mujer"], ["hombre"], "actor - hombre + mujer"),
+        (["terror", "risa"], ["miedo"],  "terror - miedo + risa"),
+        (["película", "televisión"], ["cine"],   "película - cine + televisión"),
+        (["excelente", "mala"], ["buena"],  "excelente - buena + mala"),
+        (["director", "actriz"], ["actor"],  "director - actor + actriz"),
         (["aburrida", "emocionante"], ["lenta"],  "aburrida - lenta + emocionante"),
     ]
  
@@ -91,7 +98,7 @@ class Clase_W2V:
         self.df = pd.read_csv(self.ruta_csv)
  
         # Origen: kaggle/IMDB = traducido, filmaffinity = nativo
-        # (ver nota en el README: se puede cambiar este criterio aquí)
+        # (si el criterio es otro, se cambia aquí)
         self.df["origen"] = np.where(
             self.df["Fuente"].str.contains("filmaffinity"), "nativo", "traducido")
  
@@ -109,7 +116,8 @@ class Clase_W2V:
             sentences=self.df["tokens"].tolist(),
             vector_size=self.dim, window=self.ventana,
             min_count=self.min_count, sg=1,
-            epochs=self.epocas, seed=self.semilla, workers=1)
+            epochs=self.epocas, seed=self.semilla, workers=1,
+            hashfxn=_hash_estable)
         self.wv = self.modelo.wv
         print(f"Word2Vec entrenado: {len(self.wv)} palabras x {self.dim} dimensiones")
         return self
@@ -130,6 +138,15 @@ class Clase_W2V:
             return None
         return np.mean([self.wv[p] for p in partes], axis=0)
  
+    def _vectores_documentos(self):
+        """Embedding de documento = promedio de vectores de sus palabras."""
+        if self.doc_vecs is None:
+            vecs = []
+            for toks in self.df["tokens"]:
+                v = [self.wv[t] for t in toks if t in self.wv]
+                vecs.append(np.mean(v, axis=0) if v else np.zeros(self.dim))
+            self.doc_vecs = np.array(vecs)
+        return self.doc_vecs
  
     # ------------------------------------------------------------------ #
     # 2. Campos semánticos y vecinos (most_similar)
@@ -163,7 +180,7 @@ class Clase_W2V:
                     print(f"   {s:<14} -> (no está en el vocabulario)")
  
     def graficar_campos(self):
-        """t-SNE 2D de las palabras semilla (igual que el notebook, 2.4)."""
+        """Gráfico 1: t-SNE 2D de las palabras semilla de cada campo."""
         palabras, etiquetas = [], []
         for campo, semillas in self.CAMPOS.items():
             for s in semillas:
@@ -206,16 +223,6 @@ class Clase_W2V:
     # ------------------------------------------------------------------ #
     # 4. Similitud entre categorías (centroides)
     # ------------------------------------------------------------------ #
-    def _vectores_documentos(self):
-        """Embedding de documento = promedio de vectores de sus palabras (nb 2.5)."""
-        if self.doc_vecs is None:
-            vecs = []
-            for toks in self.df["tokens"]:
-                v = [self.wv[t] for t in toks if t in self.wv]
-                vecs.append(np.mean(v, axis=0) if v else np.zeros(self.dim))
-            self.doc_vecs = np.array(vecs)
-        return self.doc_vecs
- 
     def centroides(self, columna):
         """Vector promedio de cada categoría de la columna (genre, valoracion, origen)."""
         docs = self._vectores_documentos()
@@ -226,32 +233,36 @@ class Clase_W2V:
             cent[cat] = docs[mascara].mean(axis=0)
         return cent
  
-    def similitud_categorias(self, columna):
+    def _tabla_similitud(self, columna):
         """Matriz de similitud coseno entre los centroides de una columna."""
         cent = self.centroides(columna)
         nombres = list(cent)
         sim = cosine_similarity(np.array([cent[n] for n in nombres]))
-        tabla = pd.DataFrame(sim, index=nombres, columns=nombres)
+        return pd.DataFrame(sim, index=nombres, columns=nombres)
  
-        print(f"\n=== SIMILITUD COSENO ENTRE CENTROIDES ({columna}) ===")
-        print(tabla.round(3).to_string())
+    def similitud_categorias(self, columna):
+        """Imprime similitud y distancia coseno (1 - similitud) entre centroides."""
+        sim = self._tabla_similitud(columna)
+        dist = (1 - sim).clip(lower=0)
+        nombres = list(sim.index)
  
-        # Par más y menos cercano
-        pares = [(nombres[i], nombres[j], sim[i, j])
+        print(f"\n=== CENTROIDES POR {columna.upper()} ===")
+        print("\nSimilitud coseno:")
+        print(sim.round(3).to_string())
+        print("\nDistancia coseno (1 - similitud):")
+        print(dist.round(4).to_string())
+ 
+        pares = [(nombres[i], nombres[j], dist.iloc[i, j])
                  for i in range(len(nombres)) for j in range(i + 1, len(nombres))]
-        pares.sort(key=lambda x: -x[2])
-        print(f"   Más cercanos : {pares[0][0]} - {pares[0][1]} ({pares[0][2]:.3f})")
-        print(f"   Más lejanos  : {pares[-1][0]} - {pares[-1][1]} ({pares[-1][2]:.3f})")
-        return tabla
+        pares.sort(key=lambda x: x[2])
+        print(f"\n   Más cercanos : {pares[0][0]} - {pares[0][1]} (distancia {pares[0][2]:.4f})")
+        print(f"   Más lejanos  : {pares[-1][0]} - {pares[-1][1]} (distancia {pares[-1][2]:.4f})")
+        return sim
  
-    def graficar_similitud(self, columna):
-        """Mapa de calor de la similitud coseno entre centroides."""
-        cent = self.centroides(columna)
-        nombres = list(cent)
-        sim = cosine_similarity(np.array([cent[n] for n in nombres]))
-        tabla = pd.DataFrame(sim, index=nombres, columns=nombres)
- 
-        plt.figure(figsize=(7, 6))
+    def graficar_similitud(self, columna="genre"):
+        """Gráfico 2: mapa de calor de similitud coseno entre géneros."""
+        tabla = self._tabla_similitud(columna)
+        plt.figure(figsize=(8, 7))
         sns.heatmap(tabla, annot=True, fmt=".3f", cmap="YlOrRd", linewidths=0.3)
         plt.title(f"Similitud coseno entre centroides: {columna}", fontweight="bold")
         plt.tight_layout()
@@ -260,12 +271,8 @@ class Clase_W2V:
     # ------------------------------------------------------------------ #
     # 5. Vocabulario exclusivo
     # ------------------------------------------------------------------ #
-    def vocabulario_exclusivo(self, columna, topn=10, min_freq=20):
-        """
-        Palabras más características de cada categoría según su posición
-        en el espacio vectorial: similitud con el centroide de la categoría
-        MENOS la similitud promedio con los centroides de las demás.
-        """
+    def vocabulario_exclusivo(self, columna, topn=10, min_freq=20): # Palabras más características de cada categoría según su posición en el espacio vectorial
+       
         cent = self.centroides(columna)
         palabras = [w for w in self.wv.index_to_key
                     if self.wv.get_vecattr(w, "count") >= min_freq]
@@ -283,11 +290,8 @@ class Clase_W2V:
             print(f"\n[{c}]  {', '.join(resultado[c])}")
         return resultado
  
-    def calcos(self, topn=5):
-        """
-        Revisa posibles calcos de traducción: frecuencia por cada 10.000 tokens
-        en cada origen y vecinos más cercanos.
-        """
+    def calcos(self, topn=5): # Posibles calcos de traducción
+        
         print("\n=== POSIBLES CALCOS DE TRADUCCIÓN ===")
         totales = {o: self.df.loc[self.df["origen"] == o, "tokens"].str.len().sum()
                    for o in self.df["origen"].unique()}
@@ -303,16 +307,37 @@ class Clase_W2V:
         print("(frecuencia por cada 10.000 tokens)")
  
     # ------------------------------------------------------------------ #
+    # 6. Exportar embeddings (campo embeddings.word2vec_avg de MongoDB)
+    # ------------------------------------------------------------------ #
+    def exportar_embeddings(self, ruta="embeddings.word2vec_avg.csv"): # Guarda un CSV
+        
+        docs = self._vectores_documentos()
+        salida = pd.DataFrame({
+            "indice_csv": self.df.index,
+            "texto_es": self.df[self.col_texto],
+            "embeddings.word2vec_avg": [
+                json.dumps([round(float(x), 6) for x in v]) for v in docs],
+        })
+        salida.to_csv(ruta, index=False, encoding="utf-8")
+        vacios = int((np.linalg.norm(docs, axis=1) == 0).sum())
+        print(f"\nEmbeddings guardados en: {ruta} ({len(salida)} reseñas, {self.dim} dims)")
+        print(f"  Reseñas sin vector (ninguna palabra en el vocabulario): {vacios}")
+ 
+    # ------------------------------------------------------------------ #
     # Ejecutar todo
     # ------------------------------------------------------------------ #
     def ejecutar_todo(self):
+        # 5.1 Campos semánticos
         self.vecinos()
         self.campos_semanticos()
-        self.graficar_campos()
+        self.graficar_campos()                      # gráfico 1: t-SNE
+        # Analogías
         self.analogias()
+        # Similitud entre categorías
         for col in ["genre", "valoracion", "origen"]:
             self.similitud_categorias(col)
-            self.graficar_similitud(col)
+        self.graficar_similitud("genre")            # gráfico 2: heatmap de géneros
+        # Vocabulario exclusivo
         for col in ["genre", "valoracion", "origen"]:
             self.vocabulario_exclusivo(col)
         self.calcos()
@@ -323,4 +348,5 @@ if __name__ == "__main__":
     w2v.cargar_y_limpiar()
     w2v.entrenar()
     w2v.guardar_kv("word2vec_peliculas.kv")
+    w2v.exportar_embeddings("data/results/embeddings.word2vec_avg.csv")
     w2v.ejecutar_todo()
