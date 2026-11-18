@@ -96,3 +96,32 @@ darme cuenta de que no existe una sola herramienta para todo, y que conviene con
 escoger la que mejor se adapte al proyecto.
 
 ### Documentacion: https://dash.plotly.com/
+
+------
+
+### Herramienta utilizada: Claude.
+### Tarea: Exportación de Embeddings de Word2Vec a CSV para MongoDB.
+
+**Ejemplo del prompt:** ''Estoy trabajando en un proyecto de minería de textos en Python y necesito exportar los vectores promedio de las reseñas (embeddings de Word2Vec) en un archivo CSV para luego cargarlos en MongoDB. ¿Cómo puedo calcular el embedding de cada documento promediando las palabras de su tokenización y armar la estructura del CSV?'
+
+------
+
+**Respuesta:**
+Para guardar los embeddings de las reseñas y prepararlos para una base de datos como MongoDB, lo más práctico es representar cada documento (reseña completa) como el promedio vectorial de sus palabras individuales. Si un documento tiene varias palabras que se encuentran dentro del vocabulario entrenado de Word2Vec, calculas la media de sus vectores en un espacio de 100 dimensiones; si ninguna palabra coincide, devuelves un vector de ceros.
+
+```
+docs = self._vectores_documentos() # Lista o arreglo con los vectores promedio por reseña
+salida = pd.DataFrame({
+    "indice_csv": self.df.index,
+    "texto_es": self.df[self.col_texto],
+    "embeddings.word2vec_avg": [
+        json.dumps([round(float(x), 6) for x in v]) for v in docs],
+})
+salida.to_csv("embeddings.word2vec_avg.csv", index=False, encoding="utf-8")
+```
+
+-----
+
+**Reflexión:** Usar la IA en esta parte me ayudó a entender cómo se puede estructurar un modelo como Word2Vec para integrarlo con una base de datos. Aprendí que aunque Word2Vec opera a nivel de palabra individual, es una práctica común en minería de textos sumarizar un texto completo promediando los vectores de sus términos para obtener un único vector representativo por documento.
+
+-----
