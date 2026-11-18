@@ -1,27 +1,35 @@
 """Análisis semántico de reseñas de cine y series en español con BETO.
 
-El script desarrolla tres análisis:
+El script desarrolla estos análisis:
 1. Polisemia contextual: la misma palabra recibe embeddings distintos según la oración.
-2. Búsqueda semántica: encuentra reseñas parecidas a una consulta escrita en lenguaje natural.
-3. Masked Language Model: BETO predice palabras ocultas en frases típicas de reseñas.
+2. Comparación con Word2Vec: palabras únicas frente a oraciones promediadas.
+3. Búsqueda semántica: encuentra reseñas parecidas a una consulta en lenguaje natural.
+4. Exportación CLS para MongoDB y Masked Language Model.
 
-Los resultados se guardan en data/results/beto/.
+Solo se consideran las oraciones escritas en español. Los resultados se guardan
+en data/results/beto/.
 """
 
 from __future__ import annotations
 
+import hashlib
+import json
 import logging
 import re
 import sys
 import unicodedata
+from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import torch
 import torch.nn.functional as F
+from langdetect import DetectorFactory, LangDetectException, detect
 from transformers import AutoModel, AutoModelForMaskedLM, AutoTokenizer
 from transformers.utils import logging as hf_logging
+
+DetectorFactory.seed = 0
 
 hf_logging.set_verbosity_error()
 hf_logging.disable_progress_bar()
@@ -35,15 +43,35 @@ logging.getLogger("transformers").setLevel(logging.ERROR)
 MODELO_BETO = "dccuchile/bert-base-spanish-wwm-cased"
 
 DIR_PROYECTO = Path(__file__).resolve().parent.parent
-RUTA_CSV = DIR_PROYECTO / "data" / "processed" / "processed_es_fa.csv"
+RUTA_CSV = DIR_PROYECTO / "data" / "processed" / "movies_unificado.csv"
 DIR_RESULTADOS = DIR_PROYECTO / "data" / "results" / "beto"
-RUTA_WORD2VEC = DIR_PROYECTO / "data" / "models" / "word2vec_resenas.kv"
+RUTA_WORD2VEC = DIR_PROYECTO / "word2vec_peliculas.kv"
+
+COLUMNA_TEXTO = "review_summary_es"
+COLUMNAS_ID = ("primaryTitle", "Fecha_comentario", "review_summary_es", "Fuente")
 
 MAX_LENGTH = 256
 BATCH_SIZE = 8
 TOP_K = 5
 MAX_ORACIONES_POR_POLARIDAD = 40
 N_RESENAS_BUSQUEDA = 300  # None = usar el corpus completo
+N_RESENAS_COMPARACION = 300
+N_RESENAS_CLS = None  # None = exportar todas las reseñas en español
+DECIMALES_CLS = 4
+
+PALABRAS_ES = frozenset(
+    {
+        "a", "al", "algo", "alguna", "alguno", "ante", "antes", "aquel", "asi",
+        "aun", "bien", "cada", "como", "con", "contra", "cual", "cuando", "de",
+        "del", "desde", "donde", "dos", "el", "ella", "ellos", "en", "entre",
+        "era", "es", "esa", "ese", "eso", "esta", "este", "esto", "fue", "ha",
+        "hasta", "hay", "la", "las", "le", "les", "lo", "los", "mas", "me",
+        "mi", "muy", "no", "nos", "o", "otra", "otro", "para", "pero", "poco",
+        "por", "porque", "que", "se", "según", "ser", "si", "sin", "sobre",
+        "son", "su", "sus", "también", "tan", "tanto", "te", "tiene", "todo",
+        "tu", "un", "una", "uno", "y", "ya",
+    }
+)
 
 PALABRAS_POLISEMIA = {
     "oscuro": ["oscuro", "oscura", "oscuros", "oscuras"],
@@ -184,6 +212,10 @@ def cargar_resenas():
     """Lee el corpus procesado y muestra un resumen sencillo."""
     print(f"Leyendo reseñas desde {RUTA_CSV}...")
     df = pd.read_csv(RUTA_CSV)
+    if COLUMNA_TEXTO not in df.columns:
+        raise KeyError(
+            f"No se encontró la columna '{COLUMNA_TEXTO}' en {RUTA_CSV.name}."
+        )
     print(f"  Reseñas cargadas: {len(df):,}")
     print(f"  Columnas disponibles: {', '.join(df.columns)}\n")
     return df
@@ -200,6 +232,63 @@ def dividir_oraciones(texto):
         return []
     partes = re.split(r"(?<=[.!?])\s+", limpio)
     return [parte.strip() for parte in partes if parte.strip()]
+
+
+@lru_cache(maxsize=100_000)
+def _es_espanol(texto):
+    """Devuelve True si la oración parece estar escrita en español."""
+    limpio = re.sub(r"\s+", " ", str(texto or "")).strip()
+    if not limpio:
+        return False
+
+    try:
+        idioma = detect(limpio)
+    except LangDetectException:
+        idioma = None
+
+    if idioma == "es":
+        return True
+    if idioma == "en":
+        return False
+
+    # Respaldo para oraciones cortas o detecciones dudosas.
+    minusculas = limpio.lower()
+    if re.search(r"[áéíóúüñ¿¡]", minusculas):
+        return True
+    palabras = re.findall(r"[a-záéíóúüñ]+", minusculas)
+    return any(palabra in PALABRAS_ES for palabra in palabras)
+
+
+def oraciones_espanolas(texto):
+    """Devuelve solo las oraciones en español de un texto."""
+    return [oracion for oracion in dividir_oraciones(texto) if _es_espanol(oracion)]
+
+
+def texto_solo_espanol(texto):
+    """Une las oraciones en español de un texto; vacío si no queda ninguna."""
+    return " ".join(oraciones_espanolas(texto))
+
+
+def _valor_id(valor):
+    """Normaliza un valor para construir el _id determinista del documento."""
+    if valor is None:
+        return ""
+    try:
+        if pd.isna(valor):
+            return ""
+    except (TypeError, ValueError):
+        pass
+    if isinstance(valor, (int, np.integer)):
+        return str(int(valor))
+    if isinstance(valor, (float, np.floating)) and float(valor).is_integer():
+        return str(int(valor))
+    return str(valor)
+
+
+def _id_determinista(fila):
+    """Mismo _id que usa carga_data_mongo_resenas.py para cada reseña."""
+    base = "|".join(_valor_id(fila.get(columna)) for columna in COLUMNAS_ID)
+    return hashlib.sha1(base.encode("utf-8")).hexdigest()[:24]
 
 
 def _spans_variantes(texto, variantes):
@@ -340,6 +429,33 @@ def embeddings_promedio(textos, tokenizer, modelo, dispositivo, batch_size=BATCH
     return np.vstack(todos)
 
 
+def embeddings_cls(textos, tokenizer, modelo, dispositivo, batch_size=BATCH_SIZE):
+    """Genera el vector CLS normalizado de cada texto."""
+    todos = []
+
+    for inicio in range(0, len(textos), batch_size):
+        lote = textos[inicio : inicio + batch_size]
+        enc = tokenizer(
+            lote,
+            return_tensors="pt",
+            padding=True,
+            truncation=True,
+            max_length=MAX_LENGTH,
+        )
+        entrada = {nombre: tensor.to(dispositivo) for nombre, tensor in enc.items()}
+
+        with torch.no_grad():
+            salida = modelo(**entrada)
+
+        vector = salida.last_hidden_state[:, 0, :]
+        vector = F.normalize(vector, p=2, dim=1)
+        todos.append(vector.cpu().numpy())
+
+    if not todos:
+        return np.empty((0, modelo.config.hidden_size), dtype=np.float32)
+    return np.vstack(todos)
+
+
 def _similitud_promedio(vectores):
     """Calcula la similitud coseno promedio, mínima y máxima de un grupo."""
     if len(vectores) < 2:
@@ -406,7 +522,7 @@ def recolectar_oraciones(df, variantes, maximo=MAX_ORACIONES_POR_POLARIDAD):
         if pd.isna(rating):
             continue
 
-        for oracion in dividir_oraciones(fila.get("review_text_es")):
+        for oracion in oraciones_espanolas(fila.get(COLUMNA_TEXTO)):
             if not _spans_variantes(oracion, variantes):
                 continue
             if rating >= 7 and len(positivas) < maximo:
@@ -513,8 +629,211 @@ def _clave_word2vec(w2v, palabra):
     return None
 
 
-def comparar_word2vec(w2v, resumen):
-    """Compara la variación contextual de BETO con el vector único de Word2Vec."""
+def _promediar_word2vec(texto, w2v):
+    """Promedio normalizado de los vectores Word2Vec de los tokens de una oración."""
+    tokens = re.findall(r"[a-záéíóúüñ]+", str(texto or "").lower())
+    vectores = []
+    for token in tokens:
+        clave = _clave_word2vec(w2v, token)
+        if clave is not None:
+            vectores.append(w2v[clave])
+
+    if not vectores:
+        return None, 0, len(tokens)
+
+    vector = np.mean(vectores, axis=0)
+    norma = np.linalg.norm(vector)
+    if norma == 0:
+        return None, len(vectores), len(tokens)
+    return vector / norma, len(vectores), len(tokens)
+
+
+def _correlacion_ordenada(valores_a, valores_b):
+    """Correlación de Spearman sin depender de scipy (maneja empates)."""
+    rango_a = pd.Series(valores_a).rank().to_numpy()
+    rango_b = pd.Series(valores_b).rank().to_numpy()
+    if np.std(rango_a) == 0 or np.std(rango_b) == 0:
+        return None
+    return float(np.corrcoef(rango_a, rango_b)[0, 1])
+
+
+def _jaccard_vecinos(similitudes_a, similitudes_b, k=TOP_K):
+    """Solapamiento medio de los k vecinos más cercanos en dos espacios."""
+    total = similitudes_a.shape[0]
+    k = min(k, total - 1)
+    if k <= 0:
+        return None
+
+    solapamientos = []
+    for posicion in range(total):
+        orden_a = [
+            int(indice)
+            for indice in np.argsort(-similitudes_a[posicion])
+            if int(indice) != posicion
+        ][:k]
+        orden_b = [
+            int(indice)
+            for indice in np.argsort(-similitudes_b[posicion])
+            if int(indice) != posicion
+        ][:k]
+        conjunto_a = set(orden_a)
+        conjunto_b = set(orden_b)
+        union = conjunto_a | conjunto_b
+        solapamientos.append(len(conjunto_a & conjunto_b) / len(union))
+
+    return float(np.mean(solapamientos))
+
+
+def _metricas_comparacion(vectores_beto, vectores_w2v):
+    """Compara la estructura de similitudes de BETO y Word2Vec."""
+    total = len(vectores_beto)
+    if total < 3:
+        return {
+            "correlacion_pearson": None,
+            "correlacion_spearman": None,
+            "jaccard_vecinos_top_k": None,
+        }
+
+    similitudes_beto = vectores_beto @ vectores_beto.T
+    similitudes_w2v = vectores_w2v @ vectores_w2v.T
+
+    triangulo = np.triu_indices(total, k=1)
+    valores_beto = similitudes_beto[triangulo]
+    valores_w2v = similitudes_w2v[triangulo]
+
+    pearson = None
+    if np.std(valores_beto) > 0 and np.std(valores_w2v) > 0:
+        pearson = float(np.corrcoef(valores_beto, valores_w2v)[0, 1])
+
+    return {
+        "correlacion_pearson": pearson,
+        "correlacion_spearman": _correlacion_ordenada(valores_beto, valores_w2v),
+        "jaccard_vecinos_top_k": _jaccard_vecinos(
+            similitudes_beto, similitudes_w2v
+        ),
+    }
+
+
+def _resumen_comparacion(registros, filas, vectores_beto, vectores_w2v, indices):
+    """Resume las métricas globales y por valoración."""
+    def fila_grupo(nombre, posiciones):
+        metricas = _metricas_comparacion(
+            vectores_beto[posiciones], vectores_w2v[posiciones]
+        )
+        coberturas = [
+            filas[indices[posicion]]["cobertura_word2vec"]
+            for posicion in posiciones
+        ]
+        return {
+            "grupo": nombre,
+            "n_oraciones": len(posiciones),
+            "correlacion_pearson": metricas["correlacion_pearson"],
+            "correlacion_spearman": metricas["correlacion_spearman"],
+            "jaccard_vecinos_top_k": metricas["jaccard_vecinos_top_k"],
+            "cobertura_word2vec_promedio": (
+                float(np.mean(coberturas)) if coberturas else None
+            ),
+        }
+
+    resumen = [fila_grupo("global", list(range(len(indices))))]
+
+    valoraciones = sorted(
+        {
+            str(registros[indice].get("valoracion", ""))
+            for indice in indices
+            if registros[indice].get("valoracion")
+        }
+    )
+    for valoracion in valoraciones:
+        posiciones = [
+            posicion
+            for posicion, indice in enumerate(indices)
+            if str(registros[indice].get("valoracion", "")) == valoracion
+        ]
+        if posiciones:
+            resumen.append(fila_grupo(valoracion, posiciones))
+
+    return pd.DataFrame(resumen)
+
+
+def _comparar_oraciones(w2v, df, tokenizer, modelo, dispositivo):
+    """Compara BETO y Word2Vec a nivel de oración promediando vectores.
+
+    Como BETO (768 dimensiones) y Word2Vec (100) viven en espacios distintos,
+    no se comparan los vectores directamente. Se comparan sus matrices de
+    similitud: correlación de Pearson/Spearman y solapamiento de vecinos.
+    """
+    if N_RESENAS_COMPARACION is not None and N_RESENAS_COMPARACION < len(df):
+        muestra = df.sample(n=N_RESENAS_COMPARACION, random_state=42)
+    else:
+        muestra = df
+    muestra = muestra.reset_index(drop=True)
+
+    registros = []
+    for _, fila in muestra.iterrows():
+        for oracion in oraciones_espanolas(fila.get(COLUMNA_TEXTO)):
+            registros.append(
+                {
+                    "titulo": _valor_id(fila.get("primaryTitle")),
+                    "genero": fila.get("genre"),
+                    "rating": fila.get("rating"),
+                    "valoracion": fila.get("valoracion"),
+                    "oracion": oracion,
+                }
+            )
+
+    if not registros:
+        print("  No se encontraron oraciones en español para comparar.\n")
+        return pd.DataFrame(), pd.DataFrame()
+
+    print(f"  Oraciones en español analizadas: {len(registros):,}")
+    vectores_beto = embeddings_promedio(
+        [registro["oracion"] for registro in registros],
+        tokenizer,
+        modelo,
+        dispositivo,
+    )
+
+    filas = []
+    indices = []
+    vectores_w2v = []
+
+    for posicion, registro in enumerate(registros):
+        vector_w2v, en_vocabulario, total_tokens = _promediar_word2vec(
+            registro["oracion"], w2v
+        )
+        cobertura = en_vocabulario / total_tokens if total_tokens else 0.0
+        filas.append(
+            {
+                **registro,
+                "n_tokens": total_tokens,
+                "tokens_en_word2vec": en_vocabulario,
+                "cobertura_word2vec": cobertura,
+                "incluida_en_comparacion": vector_w2v is not None,
+            }
+        )
+        if vector_w2v is not None:
+            indices.append(posicion)
+            vectores_w2v.append(vector_w2v)
+
+    if len(indices) < 3:
+        print(
+            "  Muy pocas oraciones con vocabulario Word2Vec; "
+            "no se pueden calcular correlaciones.\n"
+        )
+        return pd.DataFrame(filas), pd.DataFrame()
+
+    vectores_beto_comparables = np.vstack([vectores_beto[indice] for indice in indices])
+    vectores_w2v = np.vstack(vectores_w2v)
+    resumen = _resumen_comparacion(
+        registros, filas, vectores_beto_comparables, vectores_w2v, indices
+    )
+
+    return pd.DataFrame(filas), resumen
+
+
+def comparar_word2vec(w2v, resumen, df, tokenizer, modelo, dispositivo):
+    """Compara BETO con Word2Vec a nivel de palabra y de oración."""
     if w2v is None:
         return
 
@@ -543,7 +862,22 @@ def comparar_word2vec(w2v, resumen):
     ruta = DIR_RESULTADOS / "comparacion_word2vec.csv"
     comparacion.to_csv(ruta, index=False)
     print(comparacion.to_string(index=False))
-    print(f"  Resultados guardados en {ruta}\n")
+    print(f"  Resultados guardados en {ruta}")
+
+    oraciones, resumen_oraciones = _comparar_oraciones(
+        w2v, df, tokenizer, modelo, dispositivo
+    )
+    if oraciones.empty:
+        return
+
+    ruta_oraciones = DIR_RESULTADOS / "comparacion_word2vec_oraciones.csv"
+    oraciones.to_csv(ruta_oraciones, index=False)
+    ruta_resumen = DIR_RESULTADOS / "comparacion_word2vec_resumen.csv"
+    resumen_oraciones.to_csv(ruta_resumen, index=False)
+
+    print(resumen_oraciones.to_string(index=False))
+    print(f"  Resultados por oración en {ruta_oraciones}")
+    print(f"  Resumen en {ruta_resumen}\n")
 
 
 # ---------------------------------------------------------------------------
@@ -560,15 +894,29 @@ def preparar_buscador(df, tokenizer, modelo, dispositivo):
         muestra = df
     muestra = muestra.reset_index(drop=True)
 
-    textos = [str(texto) for texto in muestra["review_text_es"].fillna("")]
-    print(f"  Generando embeddings de {len(textos):,} reseñas...")
+    textos = [texto_solo_espanol(texto) for texto in muestra[COLUMNA_TEXTO].fillna("")]
+    mascara = [bool(texto) for texto in textos]
+    muestra = muestra.loc[mascara].reset_index(drop=True)
+    textos = [texto for texto, valido in zip(textos, mascara) if valido]
+
+    print(
+        f"  Generando embeddings de {len(textos):,} reseñas "
+        "con oraciones en español..."
+    )
     embeddings = embeddings_promedio(textos, tokenizer, modelo, dispositivo)
 
     ruta_embeddings = DIR_RESULTADOS / "embeddings_resenas.npy"
     np.save(ruta_embeddings, embeddings)
 
     indice = muestra[
-        ["movie_id", "rating", "main_genre", "review_summary", "review_text_es"]
+        [
+            "primaryTitle",
+            "rating",
+            "genre",
+            "valoracion",
+            "review_summary",
+            COLUMNA_TEXTO,
+        ]
     ].copy()
     ruta_indice = DIR_RESULTADOS / "resenas_indice.csv"
     indice.to_csv(ruta_indice, index=False)
@@ -599,18 +947,19 @@ def buscar_resenas(
 
     for posicion in orden:
         fila = indice.iloc[int(posicion)]
-        texto = " ".join(str(fila["review_text_es"]).split())
+        texto = " ".join(str(fila[COLUMNA_TEXTO]).split())
         fragmento = texto[:180] + ("..." if len(texto) > 180 else "")
         print(
             f"    {similitudes[posicion]:.4f} | rating={fila['rating']} "
-            f"| género={fila['main_genre']} | {fragmento}"
+            f"| género={fila['genre']} | {fragmento}"
         )
         resultados.append(
             {
                 "similitud": float(similitudes[posicion]),
-                "movie_id": fila["movie_id"],
+                "titulo": fila["primaryTitle"],
                 "rating": fila["rating"],
-                "genero": fila["main_genre"],
+                "genero": fila["genre"],
+                "valoracion": fila["valoracion"],
                 "fragmento": fragmento,
             }
         )
@@ -620,7 +969,72 @@ def buscar_resenas(
 
 
 # ---------------------------------------------------------------------------
-# 4. Masked Language Model
+# 4. Exportación de embeddings CLS para MongoDB
+# ---------------------------------------------------------------------------
+
+def exportar_beto_cls(df, tokenizer, modelo, dispositivo):
+    """Guarda un JSONL con los vectores CLS para la colección embeddings_beto."""
+    if N_RESENAS_CLS is not None and N_RESENAS_CLS < len(df):
+        muestra = df.sample(n=N_RESENAS_CLS, random_state=42)
+    else:
+        muestra = df
+    muestra = muestra.reset_index(drop=True)
+
+    preparados = []
+    for _, fila in muestra.iterrows():
+        texto = texto_solo_espanol(fila.get(COLUMNA_TEXTO))
+        if texto:
+            preparados.append((fila, texto))
+
+    print("=== 4. EXPORTACIÓN CLS PARA MONGODB ===")
+    print(
+        f"  Reseñas con oraciones en español: {len(preparados):,} de "
+        f"{len(muestra):,}"
+    )
+
+    ruta = DIR_RESULTADOS / "beto_cls.jsonl"
+    total = 0
+
+    with open(ruta, "w", encoding="utf-8") as archivo:
+        for inicio in range(0, len(preparados), BATCH_SIZE):
+            lote = preparados[inicio : inicio + BATCH_SIZE]
+            vectores = embeddings_cls(
+                [texto for _, texto in lote],
+                tokenizer,
+                modelo,
+                dispositivo,
+                batch_size=BATCH_SIZE,
+            )
+
+            for (fila, _), vector in zip(lote, vectores):
+                registro = {
+                    "_id": {"$oid": _id_determinista(fila)},
+                    "primaryTitle": _valor_id(fila.get("primaryTitle")),
+                    "review_summary_es": _valor_id(fila.get(COLUMNA_TEXTO)),
+                    "Fuente": _valor_id(fila.get("Fuente")),
+                    "modelo": MODELO_BETO,
+                    "tipo_embedding": "cls",
+                    "dimension": int(vector.shape[0]),
+                    "beto_cls": [
+                        round(float(valor), DECIMALES_CLS) for valor in vector
+                    ],
+                }
+                archivo.write(json.dumps(registro, ensure_ascii=False) + "\n")
+                total += 1
+
+            if total % (BATCH_SIZE * 10) == 0 or total == len(preparados):
+                print(
+                    f"  Procesadas: {total:,}/{len(preparados):,}",
+                    end="\r",
+                )
+
+    print(f"\n  Embeddings CLS guardados en {ruta}")
+    print(f"  Documentos exportados: {total:,}\n")
+    return ruta
+
+
+# ---------------------------------------------------------------------------
+# 5. Masked Language Model
 # ---------------------------------------------------------------------------
 
 def _clasificar_sentimiento(token):
@@ -642,7 +1056,7 @@ def _clasificar_sentimiento(token):
 
 def analizar_mlm(tokenizer, dispositivo):
     """Predice la palabra oculta en varias plantillas de reseñas."""
-    print("=== 4. MASKED LANGUAGE MODEL ===")
+    print("=== 5. MASKED LANGUAGE MODEL ===")
     print("  Cargando modelo de lenguaje enmascarado de BETO...")
     modelo = AutoModelForMaskedLM.from_pretrained(MODELO_BETO)
     modelo.to(dispositivo).eval()
@@ -727,7 +1141,7 @@ def main():
     resumen = analizar_polisemia(df, tokenizer, modelo, dispositivo)
 
     w2v = cargar_word2vec()
-    comparar_word2vec(w2v, resumen)
+    comparar_word2vec(w2v, resumen, df, tokenizer, modelo, dispositivo)
 
     embeddings, indice = preparar_buscador(df, tokenizer, modelo, dispositivo)
 
@@ -742,6 +1156,8 @@ def main():
     pd.DataFrame(filas_busqueda).to_csv(
         DIR_RESULTADOS / "busqueda_resenas.csv", index=False
     )
+
+    exportar_beto_cls(df, tokenizer, modelo, dispositivo)
 
     del modelo
     if torch.cuda.is_available():

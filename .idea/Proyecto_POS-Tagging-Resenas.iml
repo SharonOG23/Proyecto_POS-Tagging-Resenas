@@ -4,7 +4,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.13 (Proyecto_POS-Tagging-Resenas)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="C:\Dev\Codigo\Mineria_Textos\Fase2Proyecto\Proyecto_POS-Tagging-Resenas\.venv" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">

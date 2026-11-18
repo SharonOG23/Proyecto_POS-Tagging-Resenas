@@ -1,0 +1,7 @@
+palabra,sim_promedio_beto,sim_promedio_word2vec,en_vocabulario_word2vec,explicacion
+oscuro,0.7743062376976013,1.0,True,Word2Vec asigna un único vector a la palabra; por eso la similitud consigo misma es 1.0 sin importar el contexto.
+brillante,0.7842634320259094,1.0,True,Word2Vec asigna un único vector a la palabra; por eso la similitud consigo misma es 1.0 sin importar el contexto.
+frío,0.7161344885826111,1.0,True,Word2Vec asigna un único vector a la palabra; por eso la similitud consigo misma es 1.0 sin importar el contexto.
+duro,0.7313560843467712,1.0,True,Word2Vec asigna un único vector a la palabra; por eso la similitud consigo misma es 1.0 sin importar el contexto.
+pobre,0.7494195699691772,1.0,True,Word2Vec asigna un único vector a la palabra; por eso la similitud consigo misma es 1.0 sin importar el contexto.
+lleno,0.7578872442245483,1.0,True,Word2Vec asigna un único vector a la palabra; por eso la similitud consigo misma es 1.0 sin importar el contexto.

@@ -1,0 +1,403 @@
+titulo,genero,rating,valoracion,oracion,n_tokens,tokens_en_word2vec,cobertura_word2vec,incluida_en_comparacion
+Howl's Moving Castle,Animation,7.0,positiva,Howwl's Mover Castle es una buena película que podría haber sido muy fácil.,14,6,0.42857142857142855,True
+Howl's Moving Castle,Animation,7.0,positiva,"La animación fue excelente, la voz actuando (y el casting) fue fantástica, y en la mayor parte de la película, la historia fue muy buena.",25,11,0.44,True
+La Land,Comedy,10.0,positiva,Historia habitual contada de la manera más hermosa posible,9,6,0.6666666666666666,True
+Mission: Impossible II,Action,1.0,negativa,Eso es lo único que alguien puede decir sobre una película como esta.,13,5,0.38461538461538464,True
+Mission: Impossible II,Action,1.0,negativa,"Esta película fue, por falta de una palabra mejor, ATROCIOUS!",10,4,0.4,True
+Captain America: Civil War,Action,1.0,negativa,Película comienza bien y se pierde por completo.,8,5,0.625,True
+Captain America: Civil War,Action,1.0,negativa,"Una vez más, la película se centra Bucky como la razón principal.",12,5,0.4166666666666667,True
+Furious 7,Action,6.0,intermedia,La muerte de Walker no es igual a una buena película.,11,4,0.36363636363636365,True
+Ghostbusters,Action,1.0,negativa,Ni siquiera cerca del clásico 1984 GB,6,3,0.5,True
+Rent,Drama,10.0,positiva,Una tragicomedia romántica y enredada ambientada a principios de los 90 en la ciudad de Nueva York,16,6,0.375,True
+Billy Madison,Comedy,10.0,positiva,"Hoy Adam Sandler hace películas horribles como Pixels, Big Daddy, Jack y Jill, y más.",15,8,0.5333333333333333,True
+Billy Madison,Comedy,10.0,positiva,Pero esta es una de las pocas que son realmente grandes.,11,3,0.2727272727272727,True
+Edge of Tomorrow,Action,4.0,negativa,"Historia tonta, un disparo aburrido Muere Reinicio Videojuego",8,4,0.5,True
+Beekeeper: Sentencia de muerte,Acción,5.5,intermedia,"'Es una película de acción con un argumento que puede hacer que algunos espectadores levanten las cejas y se rían, pero que hará sonreír, reír y aplaudir en sus butacas a los fans de Statham' (Nate Richard: Collider) | 'Es el mejor tipo de película mala, es decir, la que pone el entretenimiento y la diversión por delante de la pretenciosidad, abrazando la risa que acompaña a una premisa tan estúpida y ultraviolenta' (Peter Debruge: Variety) | 'Las escenas de acción son terriblemente inconsistentes (...) Simplemente una absoluta basura (...) Puntuación: ★★ (sobre 5)' (John Nugent: Empire) | 'Puede que la historia sea floja pero Jason Statham está a la altura en unas secuencias de acción brutales, atractivas e incluso ridículas (...) Puntuación: ★★★ (sobre 5)' (Mae Abdulbaki: Screen Rant) | 'Hace todo lo que una película de acción debe hacer y lo hace de forma ingeniosa e inesperada.",138,57,0.41304347826086957,True
+Stranger Things,Drama,9.0,positiva,"Genial, pero el espectáculo perdió su potencial ahora",8,5,0.625,True
+Home Alone 3,Comedy,1.0,negativa,Hace que los dos primeros parezcan obras maestras de la comedia cinematográfica,12,7,0.5833333333333334,True
+Godzilla,Action,7.0,positiva,Sigue más o menos patrón tradicional de la película monstruo.,10,5,0.5,True
+Godzilla,Action,7.0,positiva,"Encantador a pesar de que conoces a los buenos (nosotros los humanos) ganará al final, y el aspecto romántico se resolverá adecuadamente.",22,7,0.3181818181818182,True
+The Grand Budapest Hotel,Adventure,10.0,positiva,"La historia más excelente, contada de la manera más hermosa",10,5,0.5,True
+Wedding Crashers,Comedy,5.0,intermedia,Tu rompecabezas de la infancia disfrazado de 'Crashers de boda,10,2,0.2,True
+Talladega Nights: The Ballad of Ricky Bobby,Action,1.0,negativa,Realmente quería gustarme esta película.,5,4,0.8,True
+Talladega Nights: The Ballad of Ricky Bobby,Action,1.0,negativa,"Es obvio que Will Ferrell es un comediante talentoso; su trabajo en Saturday Night Live, sus papeles de apoyo en Old School y Wedding Crashers y porciones de Anchorman son muy divertidos.",32,9,0.28125,True
+Star Wars: Episode VI - The Last Jedi,Action,1.0,negativa,La película en sí está bien creada.,7,3,0.42857142857142855,True
+Star Wars: Episode VI - The Last Jedi,Action,1.0,negativa,Es hermoso visuels grandes batallas espaciales y así sucesivamente.,9,3,0.3333333333333333,True
+The Grey,Action,10.0,positiva,¡Esta película es un período de gemas!,7,2,0.2857142857142857,True
+The Grey,Action,10.0,positiva,10/10 y entrega a Liam el mejor.,6,3,0.5,True
+The Lord of the Rings: The Return of the King,Adventure,10.0,positiva,"El Señor de los Anillos: El Regreso del Rey 2003 - Mi Precioso, ¡Este es un Capítulo Final Maestro!",17,7,0.4117647058823529,True
+Atomic Blonde,Action,8.0,positiva,Esta película es una película adaptada de una novela gráfica y se muestra.,13,5,0.38461538461538464,True
+Atomic Blonde,Action,8.0,positiva,"Parece que algunos del sarcasmo, cinismo y miedo general en la representación de Berlín (Este y Oeste) antes de que la pared bajara encontró su camino en esta película.",29,10,0.3448275862068966,True
+Beowulf,Animation,1.0,negativa,Una farsa de farsa de parodia de desgracia,8,4,0.5,True
+Mission: Impossible I,Action,10.0,positiva,Vi una película en casa en un DVD alquilado.,9,3,0.3333333333333333,True
+Mission: Impossible I,Action,10.0,positiva,Debo decir que me arrepentí...,5,2,0.4,True
+Mission: Impossible I,Action,10.0,positiva,de no haberlo visto en el cine.,7,3,0.42857142857142855,True
+Crash,Crime,6.0,intermedia,¡Crash Wow la película del año!,6,3,0.5,True
+Crash,Crime,6.0,intermedia,"De acuerdo, puedo ver por qué esta película fue la lista de los diez mejores, pero ¿por qué se hizo película del año?",23,10,0.43478260869565216,True
+The Hobbit: The Battle of the Five Armies,Adventure,7.0,positiva,"Decente, no muy bien, pero al menos no Star Wars: Ep",11,5,0.45454545454545453,True
+12 Angry Men,Crime,8.0,positiva,Gran película con una historia poderosa.,6,4,0.6666666666666666,True
+12 Angry Men,Crime,8.0,positiva,"No sabía si me gustaría la película al principio pero cuando decidí sentarme y verla, la película me atrapó.",19,7,0.3684210526315789,True
+Batman Forever,Action,4.0,negativa,"Hay una buena idea ahí dentro, no puedo encontrarla.",9,5,0.5555555555555556,True
+Miss Congeniality,Action,10.0,positiva,"'Drop Dead Gorgeous' implicaba que los concursos de belleza pueden hacer para el gran humor, pero 'Miss Congeniality' lo lleva a un nivel completamente nuevo.",25,10,0.4,True
+8 Mile,Drama,8.0,positiva,"Cuando escuché por primera vez sobre la película 8 Mile, yo estaba como 'impasible' al ir a verla.",17,5,0.29411764705882354,True
+8 Mile,Drama,8.0,positiva,Me encanta Eminem como rapero.,5,1,0.2,True
+The Road,Adventure,8.0,positiva,No te dejes engañar por el remolque,7,1,0.14285714285714285,True
+Toy Story 2,Animation,10.0,positiva,justo cuando pensaste que no podía mejorar,7,2,0.2857142857142857,True
+Dogma,Adventure,10.0,positiva,Brillante y pensamiento que provoca mirada a la religión occidental organizada,11,6,0.5454545454545454,True
+Aladdin,Animation,7.0,positiva,Aladdin es una buena caricatura para niños,7,3,0.42857142857142855,True
+Bridge of Spies,Drama,5.0,intermedia,Esta es una película sobre espías durante la guerra fría.,10,4,0.4,True
+Bridge of Spies,Drama,5.0,intermedia,El principal problema era que la película era de más de 2 horas sin suficiente emoción o tensión.,17,7,0.4117647058823529,True
+"O Brother, Where Art Thou?",Adventure,8.0,positiva,Esta es una película única y me encanta!,8,3,0.375,True
+"O Brother, Where Art Thou?",Adventure,8.0,positiva,"En lugar de tener una historia sólida, esta película nos presenta a algunos personajes y los hace pasar por un montón de mini viajes encontrando gente extraña y haciendo cosas divertidas.",31,16,0.5161290322580645,True
+Showgirls,Drama,3.0,negativa,"Claro, esta es una película horrible, pero eso no le ha impedido ganar un culto seguidor.",16,5,0.3125,True
+Showgirls,Drama,3.0,negativa,"Como primer gran presupuesto, película de alto perfil para recibir una calificación NC-17 tiene una cierta importancia histórica.",18,9,0.5,True
+How to Lose a Guy in 10 Days,Comedy,10.0,positiva,"Cada uno puede tener su propio significado, porque a cada persona le gusta algo más...",15,8,0.5333333333333333,True
+How to Lose a Guy in 10 Days,Comedy,10.0,positiva,pero me encanta esta película...,5,2,0.4,True
+How to Lose a Guy in 10 Days,Comedy,10.0,positiva,"Aunque ahora tiene 3 años, lo veo y lo he visto 10 veces Kate Hudson y Matthew McConaughey pertenecen a mis actores favoritos y creo que podrían ser una pareja agradable en la vida real también...",34,18,0.5294117647058824,True
+How to Lose a Guy in 10 Days,Comedy,10.0,positiva,"Sin embargo, la nueva película-Failure para lanzar, donde M McConaughey se ve, es mucho peor, porque no creo que MM y Sarah Jessica Parker hacer una pareja tan agradable y encantadora, divertido como MM y Kate Hudson.",38,15,0.39473684210526316,True
+The Dark Knight,Action,10.0,positiva,Creo que lo que no te mata te hace más extraño.,11,4,0.36363636363636365,True
+Night at the Museum: Battle of the Smithsonian,Adventure,8.0,positiva,Desde una perspectiva de 50: Pulgares arriba,6,2,0.3333333333333333,True
+Prison Break,Action,10.0,positiva,¡La mejor serie de televisión de todos los tiempos!,9,4,0.4444444444444444,True
+Munich,Drama,3.0,negativa,'Munich' está sobrevalorado por la mayoría de los revisores.,9,3,0.3333333333333333,True
+Munich,Drama,3.0,negativa,Estoy aquí para informar que el emperador Spielberg está desnudo!,10,3,0.3,True
+Cars,Animation,9.0,positiva,¡Tengo que decir que no puedo creer lo mucho que disfruté esta película!,13,5,0.38461538461538464,True
+Cars,Animation,9.0,positiva,Estuve en puntadas a través de todo.,7,1,0.14285714285714285,True
+A Good Year,Comedy,8.0,positiva,"La película fue anunciada como un 'avant première' que se muestra en Suiza, a las 11h en un domingo por la mañana, así que fui solo, y me sorprendió ver a tanta gente allí.",35,11,0.3142857142857143,True
+Pirates of the Caribbean: On Stranger Tides,Action,6.0,intermedia,¡Bien!,1,1,1.0,True
+Pirates of the Caribbean: On Stranger Tides,Action,6.0,intermedia,¿Pero sentimos como si nos saltáramos una película?,8,1,0.125,True
+Mr. & Mrs. Smith,Action,10.0,positiva,"Divertido, sexy, lleno de acción, y aún inteligente",8,5,0.625,True
+Being John Malkovich,Comedy,8.0,positiva,¡He visto un mundo que NO debería ver ningún hombre!,10,6,0.6,True
+The Brothers Grimm,Adventure,1.0,negativa,¡Esta película fue terrible!,4,2,0.5,True
+The Brothers Grimm,Adventure,1.0,negativa,Perdí el respeto por Hollywood cuando vi esta película.,9,4,0.4444444444444444,True
+The Lord of the Rings: The Two Towers,Adventure,8.0,positiva,Un 'reducción' del logro pero tiene una base rota,9,2,0.2222222222222222,True
+City Lights,Comedy,8.0,positiva,Chaplin en forma superior en todo,6,2,0.3333333333333333,True
+Signs,Drama,3.0,negativa,comentario contiene spoilers significa que es un resumen de 12 h de mierda,12,6,0.5,True
+Deja Vu,Action,9.0,positiva,"No estaba exactamente seguro de qué esperar cuando entré en el preestreno de la UCLA, pero me alegré de haber ido.",21,7,0.3333333333333333,True
+Terminator Genisys,Action,8.0,positiva,"No me importa lo que digan los críticos, ¡me encantó esta película!",12,4,0.3333333333333333,True
+La sirenita,Fantástico,5.2,intermedia,"'Rob Marshall corre el riesgo de saturar al público con efectos visuales pero el reparto, que es perfecto, lo compensa' (Peter Debruge: Variety) | 'Un remake apasionante y envolvente que merece causar sensación (...) Halle Bailey imprime encanto y poder vocal a este excelente relanzamiento del clásico Disney (...) Puntuación: ★★★★ (sobre 5)' (Alex Diggins: Telegraph) | 'Bailey es lo mejor de esta película pero, a pesar de contar con un equipo repleto de talento, este remake no puede igualar la magia del clásico de 1989 (...) Puntuación: ★★ (sobre 5)' (Ellen E.",83,35,0.42168674698795183,True
+How the Grinch Stole Christmas,Comedy,2.0,negativa,Realmente disfruté odiar cada minuto.,5,5,1.0,True
+Maze Runner: Prueba de fuego,Acción,5.2,intermedia,"'Una secuela eficaz, pero poco inspirada (...) esta distopía de ciencia-ficción hace poco por expandir el atractivo de la franquicia' (John Hazelton: Screendaily) | 'Una gran parte de 'The Scorch Trials' está dedicada a rellenar los agujeros narrativos esenciales para mantener el velo del misterio (...) Irónicamente, a medida que emergen las averiguaciones, éstas socavan la historia en lugar de reforzarla' (Justin Lowe: The Hollywood Reporter) | 'En 'Maze Runner: The Scorch Trials', una conspiración de ancianos egoístas conspiran para robarle a los jóvenes su esencia vital, sacrificándolos en el proceso.",88,29,0.32954545454545453,True
+Brokeback Mountain,Drama,10.0,positiva,"Un ejercicio exquisito en lo elegante, pero poderoso; lo poco reconocido, y sin embargo el cine visceral puede ser todavía.",20,8,0.4,True
+Tinker Tailor Soldier Spy,Drama,1.0,negativa,Sin trama; sin caracterización; experiencia intolerable,6,2,0.3333333333333333,True
+The Dark Knight,Action,1.0,negativa,"La mayor broma, esta película siendo tan elogiada",8,5,0.625,True
+Dunkirk,Action,10.0,positiva,Desde mi asiento en la fila trasera pude ver que la mayoría del público era de edad media y mayor.,20,8,0.4,True
+Dunkirk,Action,10.0,positiva,Todos los asientos estaban ocupados; una casa llena.,8,2,0.25,True
+Alien³,Action,7.0,positiva,Atraído de su director como un rompe pecho de mal humor,11,4,0.36363636363636365,True
+Army of Darkness,Comedy,5.0,intermedia,Consumo excesivo de alcohol: la cura para la secuela crónica,10,3,0.3,True
+The Princess and the Frog,Animation,7.0,positiva,"No creas el bombo racializado, es la historia de amor de un empresario.",13,3,0.23076923076923078,True
+Rush,Action,9.0,positiva,¡El director Ron Howard golpeó esta fuera del estadio!,9,2,0.2222222222222222,True
+Rush,Action,9.0,positiva,"No esperaba mucho entrar en esto, pero tengo que decir que me sorprendió gratamente.",14,4,0.2857142857142857,True
+Twister,Action,8.0,positiva,Vi esta película cuando tenía unos nueve años y la amé entonces y aún la amo ahora.,17,8,0.47058823529411764,True
+Twister,Action,8.0,positiva,"Los efectos especiales son extremadamente bajos y hay muchos momentos en que estás al borde de tu asiento, viendo cada tornado cada vez más devastador a medida que la película continúa.",31,13,0.41935483870967744,True
+Inside Out,Animation,10.0,positiva,Reloj obligatorio para niños y padres por igual,8,4,0.5,True
+Toy Story,Animation,8.0,positiva,Toy story fue una divertida e imaginativa renovación del género animado ya cuando fue lanzado en 1995.,16,7,0.4375,True
+Cinderella,Drama,8.0,positiva,Tengo que contarte un secreto que te verá a través de todas las pruebas que la vida puede ofrecer,19,7,0.3684210526315789,True
+Inglourious Basterds,Adventure,1.0,negativa,Mensaje a Quentin: ¡Retaos!,4,2,0.5,True
+Apollo 13,Adventure,5.0,intermedia,"Está bien, pero ya está hecho.",6,2,0.3333333333333333,True
+Her,Drama,10.0,positiva,"más allá de SIFI, romance y drama, es el futuro",10,4,0.4,True
+A Bug's Life,Animation,8.0,positiva,¡Espero que esto no te moleste!,6,1,0.16666666666666666,True
+A Bug's Life,Animation,8.0,positiva,¡No puedo evitarlo!,3,1,0.3333333333333333,True
+Sunshine,Adventure,10.0,positiva,Una mirada a la humanidad que provoca pensamientos y que hiere duramente,12,4,0.3333333333333333,True
+300,Action,1.0,negativa,"Grandes gráficos y gráficos, malas particularidades y historia",8,5,0.625,True
+The Dark Knight,Action,10.0,positiva,¡La película más grande de Superhéroe!,6,3,0.5,True
+How to Train Your Dragon,Animation,9.0,positiva,"Hermoso, colorido, imaginativo, evocador, atractivo y reconfortante",7,3,0.42857142857142855,True
+The Nightmare Before Christmas,Animation,9.0,positiva,Un cuento torcido para niños de todas las edades,9,4,0.4444444444444444,True
+The Other Woman,Comedy,10.0,positiva,Divertido y cómico al mismo tiempo,6,4,0.6666666666666666,True
+Les Misérables,Drama,9.0,positiva,"Les Miserables es un trueno, un murmullo emocional",8,1,0.125,True
+Some Like It Hot,Comedy,8.0,positiva,"A algunos les gusta caliente, pero a todos les encanta esta película.",12,4,0.3333333333333333,True
+Some Like It Hot,Comedy,8.0,positiva,"Ya sea que hables con alguien que es un conocedor de películas, o alguien que odia categóricamente las viejas películas en blanco y negro, todo el mundo ama, 'Aquellos que les gusta'.",32,12,0.375,True
+The Heat,Action,1.0,negativa,Utilice las dos horas para limpiar el garaje o preparar para un procedimiento médico,14,3,0.21428571428571427,True
+Doce hombres sin piedad,Intriga,8.7,positiva,"'Excelente película (...) un análisis penetrante, sensible y a ratos impactante del corazón y la mente de los hombres (...) tenso, absorbente y apasionante drama que va más allá de los estrechos límites de un jurado confinado en una sala.'",38,12,0.3157894736842105,True
+Eternal Sunshine of the Spotless Mind,Drama,10.0,positiva,Una de las mayores historias románticas de nuestro tiempo,9,4,0.4444444444444444,True
+Beautiful Creatures,Drama,7.0,positiva,Historia predecible pero mucho más divertida que Crepúsculo,8,4,0.5,True
+Animales fantásticos y dónde encontrarlos,Fantástico,6.2,positiva,'Ese encantador entretenimiento de J.K.,6,2,0.3333333333333333,True
+Animales fantásticos y dónde encontrarlos,Fantástico,6.2,positiva,Rowling ha regresado con fuerza al mundo de la magia en una lluvia de chispas sobrenaturales - y ha creado una gloriosa aventura de romance y fantasía.,26,8,0.3076923076923077,True
+Gone with the Wind,Drama,10.0,positiva,Para mí ver 'Se fue con el viento' era muy difícil.,11,3,0.2727272727272727,True
+Gone with the Wind,Drama,10.0,positiva,"Porque, años después, paso canales de TV y de repente, veo el final.",13,6,0.46153846153846156,True
+The Machinist,Drama,6.0,intermedia,paranoico thriller y pérdida de peso horrorosa,7,3,0.42857142857142855,True
+Deadpool,Action,7.0,positiva,Reseña de alguien que no es un fan de cómics.,10,4,0.4,True
+Deadpool,Action,7.0,positiva,Deadpool es muy divertido y es realmente meta-.,8,2,0.25,True
+Thor: Ragnarok,Action,8.0,positiva,Thor Ragnarok Spoiler Review y lo increíble que eran Hela y Valkyrie.,12,4,0.3333333333333333,True
+Thor: Ragnarok,Action,8.0,positiva,Damos nuestra reseña divertida de Thor Ragnarok y hablamos sobre cómo Hot Hela es comparado con Thor.,17,6,0.35294117647058826,True
+Shrek the Third,Animation,7.0,positiva,"No tan bueno como los dos primeros, de acuerdo",9,5,0.5555555555555556,True
+Ice Age,Animation,7.0,positiva,"Vi esta película con un poco de trepidación, ya que normalmente no me gustan las películas de este género.",19,5,0.2631578947368421,True
+8 Mile,Drama,5.0,intermedia,"Muévete, no hay nada que ver aquí.",7,2,0.2857142857142857,True
+Harry Potter and the Order of the Phoenix,Adventure,4.0,negativa,Harry Potter Seis necesita un nuevo director ahora,8,7,0.875,True
+Basic Instinct 2,Drama,9.0,positiva,Es la secuela que todos (¡incluyéndome!) Quería odiar.,8,3,0.375,True
+Inside Man,Crime,10.0,positiva,Echa un vistazo a la primera canción de la banda sonora de Hindi en el 'http://w.,17,6,0.35294117647058826,True
+The Bay,Terror,4.8,intermedia,"'El resultado es sorprendentemente satisfactorio, como 'Jaws' para la era YouTube/Skype'.",12,3,0.25,True
+The Bay,Terror,4.8,intermedia,"(Noel Murray: AV Club) | 'La historia se vuelve más ridícula a medida que avanza, y el sobredeterminado enfoque ecológico socava cualquier tensión real de una película de terror' (Mark Olsen: Los Angeles Times) | 'Carece de la espeluznante inmediatez incluso de las más malogradas del género 'found-footage'.",47,18,0.3829787234042553,True
+Wonder Woman,Action,10.0,positiva,"Soy un gran fan de las películas de Marvel, pero francamente DC me ha dejado algo tibio o Luke caliente en sus películas pasadas en el reino del super héroe.",30,11,0.36666666666666664,True
+Contact,Drama,3.0,negativa,"Honestamente, me encanta la ciencia ficción y siempre encuentras la idea religión versus ciencia es algo muy fascinante.",18,9,0.5,True
+Frozen,Animation,8.0,positiva,"Vamos, ¿quién no ha visto a Frozen todavía?",8,5,0.625,True
+The Hobbit: The Desolation of Smaug,Adventure,7.0,positiva,La majestuosa presencia de Smaug es razón suficiente para ver esto,11,4,0.36363636363636365,True
+Terminator 3: Rise of the Machines,Action,8.0,positiva,Fui a esta película con pocas expectativas.,7,3,0.42857142857142855,True
+Terminator 3: Rise of the Machines,Action,8.0,positiva,"Sí, había estado esperando mucho tiempo para que se hiciera, y después de la primera película de Matrix, me di cuenta de que T3 no podía hacer nada para sorprenderme con los efectos especiales.",34,11,0.3235294117647059,True
+Fury,Action,2.0,negativa,Upmars a Berlín se encuentra con muchos nazis,8,2,0.25,True
+Justice League,Action,10.0,positiva,No sé por qué a la gente le gusta esta película.,11,3,0.2727272727272727,True
+Justice League,Action,10.0,positiva,Creo que es una de las mejores películas que se hacen de D.C.,14,4,0.2857142857142857,True
+Underworld,Action,10.0,positiva,Llego un poco tarde pero tengo que hacerlo.,8,2,0.25,True
+Underworld,Action,10.0,positiva,"Cuando Underworld salió a los cines en el '03, nunca fui a verlo.",12,4,0.3333333333333333,True
+Little Miss Sunshine,Comedy,10.0,positiva,Fui a ver esta película el domingo.,7,3,0.42857142857142855,True
+Little Miss Sunshine,Comedy,10.0,positiva,"Nunca había visto a muchos espectadores para un lanzamiento limitado, y también cuando ya es en la tercera semana.",19,6,0.3157894736842105,True
+Deep Blue Sea,Action,8.0,positiva,Pensé que Deep Blue Sea era una de las mejores películas de tiburones creadas.,14,5,0.35714285714285715,True
+Deep Blue Sea,Action,8.0,positiva,Me fascinaba mucho la parte científica de la película.,9,2,0.2222222222222222,True
+The Truman Show,Comedy,8.0,positiva,Tratado ambicioso y entretenido sobre la realidad que los medios crean para nosotros,13,5,0.38461538461538464,True
+Coco,Animation,8.0,positiva,"Vi esto en el teatro hoy, y me alegro mucho de haberlo hecho.",13,5,0.38461538461538464,True
+Logan,Action,8.0,positiva,Normalmente no me gustan las películas de Super Hero porque parecen demasiado imposibles de invertir moralmente.,16,6,0.375,True
+Spider-Man: Homecoming,Action,9.0,positiva,"Spider-Man: Homecoming, la última adición a la MCU es un paseo emocionante y impresionante.",15,8,0.5333333333333333,True
+Spider-Man: Homecoming,Action,9.0,positiva,"Por impresionante, quiero decir que literalmente no te da tiempo suficiente para respirar.",13,6,0.46153846153846156,True
+Jack Reacher: Bajo la mira,Acción,6.0,intermedia,"'Reacher' está limitada por la falta de originalidad y obstaculizada por clichés temáticos y secuencias de acción genéricas (...) Puntuación: ★★ (sobre 4)' (Claudia Puig: USA Today) | 'Este Reacher seguro de sí y ultracompetente, es un personaje que Cruise podría interpretar hasta dormido, que es básicamente lo que hace aquí' (A.",48,18,0.375,True
+Frozen,Animation,1.0,negativa,Esto es casi tan malo como la pelea de comida,10,5,0.5,True
+Maléfica,Fantástico,6.0,intermedia,"'De tono incierto, y con muestras visibles de lo que sospecho son múltiples reescrituras del guión, el filme no logra probar la psicología de su contenido ni crear una historia alternativa satisfactoria, pero sí que resulta agradable a la vista' (Andrew Barker: Variety) | 'Esta nueva película es una obra de encantamiento oscuro, con un diseño exquisito y repleta de absorbentes emociones.'",61,20,0.32786885245901637,True
+Silver Linings Playbook,Comedy,8.0,positiva,Siéntete buena comedia - Jennifer es buena pero ¿un Oscar?,9,5,0.5555555555555556,True
+The Tree of Life,Drama,1.0,negativa,"Si me hubieran dopado, me hubiera gustado.",7,1,0.14285714285714285,True
+Children of Men,Drama,7.0,positiva,"Película impresionante, pero no se cumplió al final",8,3,0.375,True
+Eragon,Action,2.0,negativa,Esta es una buena película si sólo quieres ir a ver una película con un dragón genial en ella.,19,8,0.42105263157894735,True
+Eragon,Action,2.0,negativa,"Sin embargo, si vas a ver el libro cobrar vida, te sentirás extremadamente decepcionado.",14,7,0.5,True
+Star Wars: Episode I - The Phantom Menace,Action,4.0,negativa,Lo peor de cualquier película de Star Wars,8,5,0.625,True
+Idiocracy,Adventure,7.0,positiva,"¡Idiocracia, ya empieza!",3,1,0.3333333333333333,True
+American Pie 2,Comedy,10.0,positiva,La película más divertida de este año es American Pie 2,10,4,0.4,True
+Twister,Action,9.0,positiva,Una década después y la película sigue siendo un buen romp,11,6,0.5454545454545454,True
+Slumdog Millionaire,Drama,9.0,positiva,"Una idea muy inteligente, construida en una película muy interesante",10,4,0.4,True
+Spider-Man 3,Action,1.0,negativa,¡Con demasiado equipaje emocional!,4,2,0.5,True
+Deep Impact,Action,9.0,positiva,Leí una reseña de otro crítico sobre IMDb.,8,4,0.5,True
+Deep Impact,Action,9.0,positiva,Es la primera vez que estoy de acuerdo en un 100% con otro revisor.,13,3,0.23076923076923078,True
+Moana,Animation,9.0,positiva,Desde el libro Jungle no me he sentido así viendo una película animada.,13,5,0.38461538461538464,True
+Moana,Animation,9.0,positiva,"Es una hermosa historia llena de magia, cultura y espiritualidad.",10,5,0.5,True
+Coco,Animation,10.0,positiva,"Hace tiempo que no disfruto tanto de una película, aunque no me ha traído nuevos gráficos extravagantes y efectos de CGI, pero ¿a quién le importa?",26,10,0.38461538461538464,True
+Wonder Woman,Action,9.0,positiva,"Tras su debut cinematográfico en Batman v Superman 2016, Gal Gadot regresa como Diana Prince alias Wonder Woman.",17,10,0.5882352941176471,True
+Blade Runner 2049,Drama,4.0,negativa,Un mediocre y sin alma 'bloqueo',6,2,0.3333333333333333,True
+Dial M for Murder,Crime,6.0,intermedia,Esto se considera una película 'sofisticada' del crimen y tiene algunos diálogos interesantes y una historia que mantiene su interés.,20,8,0.4,True
+The General,Action,9.0,positiva,Esta película fracasó cuando fue estrenada a finales de 1926 por varias razones.,12,5,0.4166666666666667,True
+The General,Action,9.0,positiva,"En primer lugar, su estreno se retrasó porque 'Flesh and the Devil' era una sensación que se celebró durante un par de semanas adicionales.",24,8,0.3333333333333333,True
+"I, Robot",Action,7.0,positiva,Una buena película pero no coincide con la visión de Asimov,11,3,0.2727272727272727,True
+Forgetting Sarah Marshall,Comedy,9.0,positiva,"Básicamente un pollito, pero los chicos tienen todos los papeles de 'chica'",12,4,0.3333333333333333,True
+Dawn of the Dead,Action,8.0,positiva,Esta es una película divertida.,5,2,0.4,True
+Dawn of the Dead,Action,8.0,positiva,"Odio la mayoría de remakes de clásicos, sin embargo, este es un remake super bien hecho.",16,9,0.5625,True
+The Break-Up,Comedy,8.0,positiva,"Sí, finalmente una película que realmente me gustó.",8,4,0.5,True
+The Break-Up,Comedy,8.0,positiva,Esta película es muy divertida y también es una buena película.,11,4,0.36363636363636365,True
+Watchmen,Action,8.0,positiva,No es sólo otra película super héroe desechable.,8,4,0.5,True
+Watchmen,Action,8.0,positiva,Este es más oscuro y en realidad tiene algunos temas en los que pensar.,14,4,0.2857142857142857,True
+La hermanastra fea,Terror,6.5,positiva,"'Una crítica perversamente imaginativa de los castigadores cánones de belleza femeninos (...) Al igual que su predecesora espiritual, 'The Substance', demuestra que el terror es arte.",25,9,0.36,True
+Lucy,Action,1.0,negativa,Los humanos no usan sólo el 10% de sus cerebros.,9,3,0.3333333333333333,True
+Lucy,Action,1.0,negativa,"Si sufre una lesión en cualquier parte del cerebro, sufrirá alguna debilidad.",12,5,0.4166666666666667,True
+Platoon,Drama,10.0,positiva,"Sin duda alguna, esta es la mejor guerra de Vietnam porque esta película da una idea real de lo que la guerra puede hacer al estado de ánimo de una persona independientemente de si son soldados de civiles.",38,13,0.34210526315789475,True
+Children of Men,Drama,10.0,positiva,Muy triste comentario sobre nuestro futuro,6,3,0.5,True
+Saw,Crime,1.0,negativa,"Si alguna vez he visto una película que valió la pena un premio de oro Raspberry, es esto.",18,8,0.4444444444444444,True
+Saw,Crime,1.0,negativa,¡La actuación fue terrible!,4,2,0.5,True
+Her,Drama,9.0,positiva,Ella: Amor en el tiempo de aislamiento,7,2,0.2857142857142857,True
+Corpse Bride,Animation,4.0,negativa,Tim Burton's Corpuse Bride demuestra que una mala película no puede montar fuera de los buenos visuales o inusuales técnicas de rodaje por sí sola.,26,10,0.38461538461538464,True
+The Great Wall,Action,4.0,negativa,'La Gran Muralla' es una película sobre una de las leyendas de la Gran Muralla de China.,17,4,0.23529411764705882,True
+The Great Wall,Action,4.0,negativa,"Después de ver la caravana, tenía curiosidad, pero no esperaba mucho.",11,5,0.45454545454545453,True
+Guardians of the Galaxy: Vol. 2,Action,7.0,positiva,El 3D en esta película fue excelente como siempre.,9,3,0.3333333333333333,True
+Guardians of the Galaxy: Vol. 2,Action,7.0,positiva,La historia-línea y el desarrollo del personaje hizo esta película mucho más interesante.,14,7,0.5,True
+Schindler's List,Biography,10.0,positiva,"¡Vaya, vaya y vaya!",4,3,0.75,True
+Schindler's List,Biography,10.0,positiva,"Vamos a conseguir algunas cosas primero; no soy en modo alguno un kyke, heeb o de práctica judía, pero esta hermosa pieza de arte es simplemente impresionante!",27,9,0.3333333333333333,True
+Toy Story 3,Animation,10.0,positiva,Una de las mejores trilogías de todos los tiempos,9,2,0.2222222222222222,True
+The Prince of Egypt,Animation,10.0,positiva,Sólo...,1,1,1.0,True
+The Prince of Egypt,Animation,10.0,positiva,¡Vaya!,1,1,1.0,True
+Assassin's Creed,Action,4.0,negativa,Soy un gran fan de la serie de juegos de Assassin's Creed y esperaba ver esta película desde el día que se anunció.,24,10,0.4166666666666667,True
+Daddy's Home,Comedy,5.0,intermedia,Una comedia promedio que tiene un buen mensaje,8,4,0.5,True
+The Descent,Adventure,9.0,positiva,El Descenso da ejemplo para una película de terror magnífica,10,4,0.4,True
+Allied,Action,5.0,intermedia,"Allied sería útil estudiar en escuelas de cine, porque incluía todos los elementos necesarios para hacer una buena película...",19,6,0.3157894736842105,True
+Allied,Action,5.0,intermedia,"y sin embargo, terminó siendo una absoluta pérdida de tiempo.",10,6,0.6,True
+Crash,Crime,3.0,negativa,Esta película no es un gran desafío para cualquiera que prefiera pensar que le den de comer a cuchara.,19,5,0.2631578947368421,True
+La Land,Comedy,8.0,positiva,Un gran musical moderno excepto el final,7,5,0.7142857142857143,True
+Anchorman: The Legend of Ron Burgundy,Comedy,6.0,intermedia,"Estaba muy decepcionado con el aspecto humorístico, pero era una película muy agradable",13,4,0.3076923076923077,True
+The Lord of the Rings: The Return of the King,Adventure,10.0,positiva,Una gran contribución a la historia del cine,8,3,0.375,True
+Seven Samurai,Adventure,9.0,positiva,Película brillante que no puede ser igualada por versiones posteriores,10,4,0.4,True
+The Snowman,Crime,2.0,negativa,"Si eres un fan de Jo Nesbo, no pierdas tu tiempo en esta película.",14,4,0.2857142857142857,True
+The Snowman,Crime,2.0,negativa,"Excepto nombres y construir un muñeco de nieve, nada es como en el brillante libro.",15,5,0.3333333333333333,True
+V for Vendetta,Action,9.0,positiva,"No estaba seguro de ver esto, ya que sabía que los hermanos Wachowski estaban involucrados.",15,4,0.26666666666666666,True
+V for Vendetta,Action,9.0,positiva,Absolutamente detesté las secuelas de Matrix.,6,3,0.5,True
+Maleficent,Action,9.0,positiva,Todos los cuentos de hadas deberían ser así,8,5,0.625,True
+Ocean's Twelve,Crime,1.0,negativa,Los spoilers contienen...,3,1,0.3333333333333333,True
+Ocean's Twelve,Crime,1.0,negativa,"Esto es una desgracia, vergüenza, vergüenza de una película.",9,4,0.4444444444444444,True
+Ocean's Twelve,Crime,1.0,negativa,Una pérdida total de tiempo.,5,3,0.6,True
+Teenage Mutant Ninja Turtles,Action,8.0,positiva,"Esta película es una rareza, y lo digo de una manera totalmente positiva.",13,6,0.46153846153846156,True
+Teenage Mutant Ninja Turtles,Action,8.0,positiva,"Cuando era joven vi la caricatura, también vi la película de niño y me gustó.",15,5,0.3333333333333333,True
+Jumper,Action,5.0,intermedia,Una decepción total de la novela,6,3,0.5,True
+The Lion King,Animation,9.0,positiva,"No es un favorito personal, pero es bueno",8,3,0.375,True
+Small Soldiers,Action,8.0,positiva,La versión de Joe Dante de Toy Story,8,4,0.5,True
+X-Men: Apocalypse,Action,8.0,positiva,"Lanzado en 2016 y dirigido/co-escrito por Bryan Singer, 'X-Men: Apocalypse' tiene al equipo contra el primer mutante, Apocalipsis (Oscar Isaac), cuyos orígenes datan del antiguo Egipto.",28,10,0.35714285714285715,True
+The Virgin Suicides,Drama,8.0,positiva,"Querida Kirsten, sólo quiero decirte que me encanta tu trabajo (lo que original).",13,6,0.46153846153846156,True
+The Virgin Suicides,Drama,8.0,positiva,"No, en serio, cómo Lux, en los tristes, conmovedores y hermosos 'Los suicidios vírgenes' haces un trabajo sensacional.",18,4,0.2222222222222222,True
+Piranha 3D,Comedy,1.0,negativa,Esta película nunca debió haber ocurrido.,6,3,0.5,True
+Finding Nemo,Animation,6.0,intermedia,"Ligeramente sobrevalorado, pero todavía delicioso",5,3,0.6,True
+The Twilight Saga: Eclipse,Adventure,6.0,intermedia,Fuego y hielo...,3,2,0.6666666666666666,True
+The Twilight Saga: Eclipse,Adventure,6.0,intermedia,pero no pasa mucho.,4,1,0.25,True
+Charlie and the Chocolate Factory,Adventure,5.0,intermedia,Johnny Depp es uno de mis actores favoritos.,8,4,0.5,True
+Charlie and the Chocolate Factory,Adventure,5.0,intermedia,Creo que puede interpretar el papel de casi cualquier personaje.,10,7,0.7,True
+Monty Python's Life of Brian,Comedy,10.0,positiva,Los mejores momentos cómicos en el cine,7,3,0.42857142857142855,True
+Rogue One: A Star Wars Story,Action,5.0,intermedia,Un equipo B de héroes lucha contra un gerente medio imperial en quiebra.,13,4,0.3076923076923077,True
+Rogue One: A Star Wars Story,Action,5.0,intermedia,Eso es 'Rogue Uno' en una cáscara de chiflado.,9,0,0.0,False
+Mission: Impossible I,Action,6.0,intermedia,"En general, la película fue agradable, porque las secuencias de acción son bien exectuadas y pulsantes (como se esperaba), pero cuando la historia se reduce a, bueno, la historia de la película falla.",33,12,0.36363636363636365,True
+The Cider House Rules,Drama,10.0,positiva,Irving alude a Steinbeck y Dickens,6,0,0.0,False
+Frozen,Animation,10.0,positiva,"En la tierra del frío, la hechicera del hielo es reina",11,4,0.36363636363636365,True
+Wreck-It Ralph,Animation,9.0,positiva,Una fiesta visual con una generosa ayuda de ingeniosa Wit y una gran scoop de corazón genuino,17,7,0.4117647058823529,True
+Star Wars: Episode II - Attack of the Clones,Action,6.0,intermedia,"Mejor que el episodio 1, pero aún no muy bueno.",9,4,0.4444444444444444,True
+Falsa evidencia,Thriller,5.0,intermedia,"'Un thriller oscuro de bajo presupuesto que está poco desarrollado (...) Pearce hace que el film sea atractivo (...) Te genera curiosidad, pero se olvida de hacer que te interese.'",28,11,0.39285714285714285,True
+"O Brother, Where Art Thou?",Adventure,10.0,positiva,¡Me uní a IMDB para poder comentar esta película!,9,4,0.4444444444444444,True
+Doctor Who,Adventure,3.0,negativa,"Vi todo el tiempo con Eccleston, y me di cuenta que era algo que nunca había visto antes, y estaba bastante intrigado por la serie.",25,6,0.24,True
+Leaving Las Vegas,Drama,7.0,positiva,Seguí esperando la canción de Sheryl Crow,7,2,0.2857142857142857,True
+Team America: World Police,Action,10.0,positiva,Maravillosa sátira en un tiempo muy necesario,7,4,0.5714285714285714,True
+Mission: Impossible - Ghost Protocol,Action,8.0,positiva,Uno de los raros casos de una larga serie de películas que parece estar mejorando con el tiempo.,18,8,0.4444444444444444,True
+Mission: Impossible - Ghost Protocol,Action,8.0,positiva,La primera película fue buena...,5,3,0.6,True
+Mission: Impossible - Ghost Protocol,Action,8.0,positiva,un poco de entretenimiento sólido y corriente.,7,2,0.2857142857142857,True
+Star Wars: Episode VI - The Last Jedi,Action,4.0,negativa,Algo desconectado.,2,0,0.0,False
+Star Wars: Episode VI - The Last Jedi,Action,4.0,negativa,"Hay algunas buenas partes, pero fue un poco 'intentar duro' en cuántos artículos / caracteres que podrían interject de las películas anteriores que en su mayoría parecía fuera de lugar.",29,10,0.3448275862068966,True
+The Iron Giant,Animation,10.0,positiva,"En el mundo de las películas animadas, ésta tiene cinco estrellas.",11,6,0.5454545454545454,True
+Frozen,Animation,3.0,negativa,No entiendo por qué todo el mundo lo ama,9,3,0.3333333333333333,True
+The Iron Giant,Animation,10.0,positiva,El gigante de hierro pisa toda la competencia,8,3,0.375,True
+Asalto al tren de Glasgow,Thriller,6.5,positiva,"'Una obra estructurada con inteligencia y bien escrita por el guionista de 'Broadchurch', Chris Chibnall, posiblemente el mejor guionista del país.'",21,10,0.47619047619047616,True
+Gladiator,Action,10.0,positiva,Una de las mejores películas que he visto.,8,3,0.375,True
+The Nightmare Before Christmas,Animation,10.0,positiva,Excelente rendimiento de dirección,4,3,0.75,True
+Thor: Ragnarok,Action,7.0,positiva,La interacción entre los personajes lleva esta película.,8,3,0.375,True
+Thor: Ragnarok,Action,7.0,positiva,Chris Hemsworth (como Thor) y Tom Hiddleston (como Loki) llevan esta película con el acto de un hermano de corazón ligero.,21,9,0.42857142857142855,True
+Stardust,Adventure,6.0,intermedia,"Esponjoso y un poco débil, pero agradable de todos modos",10,3,0.3,True
+Into the Woods,Adventure,6.0,intermedia,"Las características musicales de Rob Marshall son muy enérgicas y se convierten en los mejores de Pine, Streep, Blunt y Corden.",21,7,0.3333333333333333,True
+Irreversible,Crime,10.0,positiva,"Cuando llegué a la página IMDb para esta película, la primera reseña que se presentó fue una reseña de una estrella de 2009 que planteó la pregunta: '¿Hay una parte de ti que se excita por el sexo y la violencia de esta película?'.",43,12,0.27906976744186046,True
+Barzaj,Documental,5.6,intermedia,"'Aunque la melancólica fotografía es a veces un poco incomprensible, y la película se acerque a poetizar en exceso las experiencias de sus protagonistas, el documental sigue siendo conmovedor (…) Puntuación: ★★★ (sobre 5)' (Phuong Le: The Guardian) | 'Sus imágenes claustrofóbicas son únicas y acentúan la sensación de que estamos observando a personas corrientes, pero también crean una distancia emocional que impide empatizar del todo' (Davide Abbatescianni: Cineuropa)",65,20,0.3076923076923077,True
+Prison Break,Action,2.0,negativa,No hay cualidades redimidoras.,4,1,0.25,True
+Prison Break,Action,2.0,negativa,"Disfruté de la serie original, y sin duda las intenciones eran honorables (¡Estoy seguro de que no era sólo sobre el dinero!), pero esto era simplemente pobre.",27,10,0.37037037037037035,True
+Zero Dark Thirty,Drama,8.0,positiva,Un primer borrador de la historia apasionante,7,3,0.42857142857142855,True
+Cars,Animation,8.0,positiva,Duro para niños con el síndrome de las hormigas en los pantalones,12,2,0.16666666666666666,True
+Fifty Shades of Grey,Drama,1.0,negativa,Esto no es una película - esto es un experimento social,10,2,0.2,True
+Guardians of the Galaxy: Vol. 2,Action,5.0,intermedia,"Afrontémoslo, Starlord tiene varios orígenes todos los cuales son mejores que éste.",12,3,0.25,True
+Guardians of the Galaxy: Vol. 2,Action,5.0,intermedia,Honestamente esta adaptación es mejor que la historia en los cómics.,11,5,0.45454545454545453,True
+Life of Pi,Adventure,10.0,positiva,La mejor película que he visto en mi vida,9,4,0.4444444444444444,True
+Cadáver,Terror,4.6,intermedia,"'Un personaje que casi no tiene personalidad (...) El aspecto de los cadáveres es extremadamente realista (...) Hannah está poseída, pero no tiene vida.",22,7,0.3181818181818182,True
+The Shawshank Redemption,Crime,10.0,positiva,"En mi opinión personal, cualquier persona en el mundo que entienda inglés, nunca diría algo malo sobre esta película.",19,10,0.5263157894736842,True
+El manicomio: La cuna del terror,Terror,3.8,negativa,"'A pura fórmula, sin sorpresas, este exponente alemán de cine de terror resulta fácil y rápidamente olvidable.",17,9,0.5294117647058824,True
+The Hobbit: The Desolation of Smaug,Adventure,7.0,positiva,Se siente más como relleno que como una película real,10,2,0.2,True
+Bright,Action,9.0,positiva,Finalmente pude ver Bright hoy después de leer muchas críticas malas sobre esta película.,14,11,0.7857142857142857,True
+Bright,Action,9.0,positiva,Hicieron un gran trabajo con el guión y un trabajo increíble con la selección del reparto.,16,7,0.4375,True
+Captain America: The Winter Soldier,Action,3.0,negativa,Triple Un error lógico popcorn cine,6,2,0.3333333333333333,True
+Die Hard 2,Action,7.0,positiva,Esto no es tan bueno como Die Hard.,8,3,0.375,True
+Die Hard 2,Action,7.0,positiva,"No importa, como yo, por suerte, no he visto a Die Hard, así que mi opinión no puede ser alterada por la expectativa.",23,9,0.391304347826087,True
+The Nativity Story,Drama,8.0,positiva,Muchos críticos han sido poco amables con esta película y algunos se han quejado de que 'es demasiado como el libro'.,21,5,0.23809523809523808,True
+Atomic Blonde,Action,10.0,positiva,Charlie era sobresaliente.,3,2,0.6666666666666666,True
+Atomic Blonde,Action,10.0,positiva,No he sido tan entretenido por una agente desde que Besos Buenas noches.,13,6,0.46153846153846156,True
+Kingsman: The Golden Circle,Action,10.0,positiva,KINGSMEN 2 es una película muy buena con potencial para ser una nueva y larga duración FRANCHISE en género de 'SPIY FLICKS'.,21,8,0.38095238095238093,True
+Hugo,Adventure,3.0,negativa,Una película mejor y sólo disfrutada mientras se pausa,9,4,0.4444444444444444,True
+The Descent,Adventure,10.0,positiva,Este Descenso es un clásico claustrofóbico fascinante,7,2,0.2857142857142857,True
+Hard Candy,Crime,4.0,negativa,"Hay una niña dulce llamada Hayley, vive en un mundo maravilloso donde no hay crimen así que no hay policía tampoco.",21,10,0.47619047619047616,True
+Cheaper by the Dozen,Comedy,8.0,positiva,"Diversión, Corazón ligero, Sano, Levantamiento",5,3,0.6,True
+Old School,Comedy,8.0,positiva,Luke Wilson hace que otros se comprometan a mantener su casa a salvo,13,5,0.38461538461538464,True
+Cinema Paradiso,Drama,10.0,positiva,Ejemplo de narración experta y de fabricación de películas,9,3,0.3333333333333333,True
+X-Men: The Last Stand,Action,3.0,negativa,La película fue una decepción total.,6,3,0.5,True
+X-Men: The Last Stand,Action,3.0,negativa,"La película está basada en un cómic, una persona normal pensaría que es como el cómic, pero lo que hacen los fans de películas y Xmen...",26,9,0.34615384615384615,True
+X-Men: The Last Stand,Action,3.0,negativa,tienen la sensación de 'eso es todo' cuando salen del teatro y de dónde viene esta historia de...,18,5,0.2777777777777778,True
+X-Men: The Last Stand,Action,3.0,negativa,X-Men 3 - Patético.,3,2,0.6666666666666666,True
+Pulp Fiction,Crime,10.0,positiva,El culto del culto.,4,2,0.5,True
+Pulp Fiction,Crime,10.0,positiva,Escena épica en toda la película.,6,4,0.6666666666666666,True
+Ant-Man,Action,6.0,intermedia,¿Dónde está el 'Ant-Man' en el Universo Cinematográfico Marvel?,10,5,0.5,True
+Ant-Man,Action,6.0,intermedia,¡Averígualo aquí!,2,1,0.5,True
+My Best Friend's Wedding,Comedy,10.0,positiva,Pensando en mis mejores amigos parte de la boda II,10,5,0.5,True
+The Revenant,Adventure,8.0,positiva,Una de las mejores películas de Dicaprio que he visto,10,4,0.4,True
+Rushmore,Comedy,10.0,positiva,"La mejor música, trama, diálogo, las obras",7,5,0.7142857142857143,True
+Eternal Sunshine of the Spotless Mind,Drama,10.0,positiva,"Cuando la gente le pregunta a otras personas cuál es la mejor actuación de Jim Carrey, la gente suele encender la luz y decir, 'El Show de Truman!'",28,13,0.4642857142857143,True
+Casper,Comedy,7.0,positiva,¿Desde cuándo Casper se volvió romántico?,6,1,0.16666666666666666,True
+Wreck-It Ralph,Animation,8.0,positiva,Un Conejo Roger para la generación de juegos,8,3,0.375,True
+Ted,Comedy,10.0,positiva,"No suele gustar las películas animadas, pero me encantó esta película!",11,6,0.5454545454545454,True
+Ted,Comedy,10.0,positiva,Me encantan las películas de Mark Wahalberg que creo que tiene genial.,12,5,0.4166666666666667,True
+The Sting,Comedy,10.0,positiva,"¿No hay otro final donde Robert Shaw regresa a donde el Sting tuvo lugar, y encuentra el edificio limpio?",19,5,0.2631578947368421,True
+Warrior,Drama,10.0,positiva,No lo supieses ni hagas preguntas.,6,2,0.3333333333333333,True
+Die Hard,Action,10.0,positiva,¡Así es como se debe hacer una acción!,8,4,0.5,True
+Die Hard,Action,10.0,positiva,Y esta fue la película que impulsó la carrera de Bruce Willis.,12,5,0.4166666666666667,True
+Criminal Minds,Crime,10.0,positiva,"En mi opinión, Criminal Minds es, actualmente, el mejor programa de televisión.",12,5,0.4166666666666667,True
+Criminal Minds,Crime,10.0,positiva,"Un ávido fan del drama del crimen, empecé a ver Criminal Minds cuando se emitió por primera vez en 2005.",19,8,0.42105263157894735,True
+Legion,Action,6.0,intermedia,Ciertamente adecuado para pasar un par de horas de su tiempo,11,6,0.5454545454545454,True
+The Dark Knight,Action,8.0,positiva,Me tenía hasta el final.,5,1,0.2,True
+The Dark Knight,Action,8.0,positiva,Era una película tan emocionante.,5,3,0.6,True
+The Crow,Action,5.0,intermedia,No vean esto esperando una película de rapé que cortaron la escena,12,3,0.25,True
+Bright,Action,7.0,positiva,"BRIGHT fue una película de Netflix, protagonizada por Will Smith.",10,6,0.6,True
+Bright,Action,7.0,positiva,Aquí están algunos positivos IMO: +Elenco fuerte +Soundtrack +CinematogrophyFui enfurecido por algunas críticas que vi en línea para esta película.,20,6,0.3,True
+American Sniper,Action,10.0,positiva,"Esta película es una joya en el sentido de luz, vista, sonido e intensidad.",14,6,0.42857142857142855,True
+American Sniper,Action,10.0,positiva,"una esmeralda de dirección, y un diamante de sangre de edición (afilado de borde cortante).",15,4,0.26666666666666666,True
+Big Hero 6,Animation,4.0,negativa,Sólo el equipo de animación tiene integridad como odioso 'superhéroes' batalla desagradable profesor villano en un mítico 'San Fransokyo',19,8,0.42105263157894735,True
+Shaun of the Dead,Comedy,9.0,positiva,Otro gran bocado de lengua británica en la mejilla,9,2,0.2222222222222222,True
+Pride & Prejudice,Drama,4.0,negativa,Demasiado para demostrar y no lo logra.,7,2,0.2857142857142857,True
+Crash,Crime,10.0,positiva,'Crash' fue para mí definitivamente el mejor de este año.,10,3,0.3,True
+Crash,Crime,10.0,positiva,"Revela una historia conmovedora y emocionante sobre la intercultura de América, donde a veces todo parece irremediable, pero un brillo de esperanza siempre parece brillar.",25,11,0.44,True
+Fantastic Beasts and Where to Find Them,Adventure,10.0,positiva,Fantástica bestia y dónde encontrarlas - Una maravilla de cine para todos,11,4,0.36363636363636365,True
+Dunkirk,Action,1.0,negativa,"Si estás interesado o tienes conocimiento de la historia de la Segunda Guerra Mundial, no vayas a ver esta película.",20,7,0.35,True
+The Hobbit: The Desolation of Smaug,Adventure,9.0,positiva,"No importa lo que venga, quédate en el camino.",9,2,0.2222222222222222,True
+Scandal,Drama,6.2,positiva,"'Scandal' no es una serie profunda, pero es lo suficientemente brillante' (James Poniewozik: Time) | 'Si te gustan las series que no tienen miedo de volverse locas, esta podría ser el tipo de serie que te interesa' (Matt Roush: TV Guide) | 'Es mala televisión, pero elegante, sobreactuada, sexy, sucia y diabólica, el placer más inconfesable que la emisora ha dado desde 'Revenge' (Hank Stuever: The Washington Post) | 'Si bien tiene momentos francamente ridículos, 'Scandal' tiene estilo e incluso sofisticación' (Alessandra Stanley: The New York Times) | 'Se puede pensar en 'Scandal' como el equivalente moderno de esas viejas miniseries de Sidney Sheldon y disfrutar de ella en ese nivel.",107,40,0.37383177570093457,True
+The Usual Suspects,Crime,10.0,positiva,¡Es la película más grande!,5,2,0.4,True
+The Usual Suspects,Crime,10.0,positiva,Contiene todo lo que cualquiera puede querer en una película.,10,5,0.5,True
+13 Reasons Why,Drama,10.0,positiva,"Esta historia es una historia que debo contar, he leído el libro un par de veces y me ha encantado.",20,9,0.45,True
+13 Reasons Why,Drama,10.0,positiva,"No podía esperar a que saliera la serie, así que el viernes me atracón viendo la serie, y me quedé impresionado, no ayudó a que llorase en el último episodio.",30,10,0.3333333333333333,True
+The Man from Earth,Drama,10.0,positiva,El mejor ejemplo de pensamiento lateral,6,3,0.5,True
+The Last Samurai,Action,10.0,positiva,¿Por qué esperé tanto tiempo para ver su película es una de las mejores películas que he visto nunca!,19,7,0.3684210526315789,True
+Sex and the City,Comedy,4.0,negativa,Esta reseña tiene SPOILERS por favor no lea si no ha visto la película,14,6,0.42857142857142855,True
+Equilibrium,Action,9.0,positiva,"A pesar de un elemento de inconsistencia y derivatividad, esta película realmente me tocó.",14,4,0.2857142857142857,True
+Equilibrium,Action,9.0,positiva,Las actuaciones son absolutamente de primera y sobresalen las deficiencias que esta película pueda presentar.,15,5,0.3333333333333333,True
+The Beach,Adventure,5.0,intermedia,Sólo la playa de esta isla es maravillosa,8,4,0.5,True
+Shrek,Animation,10.0,positiva,Mejor comedia animada de esta generación,6,4,0.6666666666666666,True
+Fear,Drama,4.0,negativa,Me quedé dormida viendo a este perro.,7,3,0.42857142857142855,True
+Azrael,Terror,5.0,intermedia,"'Podría haberse beneficiado de una mayor variedad en general, aunque la partitura de Toti Gudnason ('Lamb') y los hermanos Blair ('The Toxic Avenger') consigue mantener el pulso'.",27,10,0.37037037037037035,True
+The Perks of Being a Wallflower,Drama,10.0,positiva,Una pieza increíble donde las artes se combinan,8,2,0.25,True
+Moonlight,Drama,3.0,negativa,"Leer los comentarios de otras personas me hace una minoría que creo, pero había algo que no me convencía con Moonlight.",21,6,0.2857142857142857,True
+13 asesinos,Acción,6.7,positiva,"'Es, por momentos, emocionante y divertida, visualmente exquisita y emocionalmente cargada'.",11,5,0.45454545454545453,True
+13 asesinos,Acción,6.7,positiva,"(Steven Rea: Philadelphia Inquirer) | 'Pocos cineastas yuxtaponen la crueldad y la belleza con tanta audacia como el japonés Takashi Miike' (Kevin Thomas: Los Angeles Times) | 'Una película de acción, humor y dignidad que se asemeja a las obras maestras de Akira Kurosawa'.",42,16,0.38095238095238093,True
+Forrest Gump,Drama,10.0,positiva,Obra maestra que abarca todos los aspectos de la vida,10,4,0.4,True
+Beowulf,Animation,6.0,intermedia,"Buena película, pero parecía copiar otra película basada en viejas ideas",11,7,0.6363636363636364,True
+Election,Comedy,9.0,positiva,una elección de secundaria muestra los verdaderos colores de algunas personas,11,6,0.5454545454545454,True
+Love Actually,Comedy,1.0,negativa,Un reparto estelar se junta para...,6,3,0.5,True
+Love Actually,Comedy,1.0,negativa,¿qué?,1,0,0.0,False
+Love Actually,Comedy,1.0,negativa,Para la mayor carga de tripas he tenido la desgracia de sentarme en mucho tiempo.,15,3,0.2,True
+Braindead,Comedy,7.0,positiva,Muerto vivo.,2,2,1.0,True
+Deja Vu,Action,10.0,positiva,Me encantan las películas que me hacen pensar.,8,4,0.5,True
+Deja Vu,Action,10.0,positiva,"Si te gusta jugar alrededor del concepto del tiempo, el universo como una manta curvable, entonces te fascinará esta película.",20,8,0.4,True
+Logan,Action,10.0,positiva,"No quiero entrar en detalles, pero resumirlo en una sola frase.",11,4,0.36363636363636365,True
+Logan,Action,10.0,positiva,"'No puedo pensar en una sola cosa que está mal con esta película, era todo lo que quería y más de una película wolverine'.",24,9,0.375,True
+Midnight in Paris,Comedy,10.0,positiva,"Magia, París, jazz, libros, 20 años y amor",7,4,0.5714285714285714,True
+La verdadera casa del terror,Documental,5.1,intermedia,"'Con impactantes imágenes de huéspedes torturados en una diabólica casa encantada, capta sus perturbadoras experiencias a manos de Russ McKamey y los efectos psicológicos que aún perduran.",27,6,0.2222222222222222,True
+Happy Feet,Animation,6.0,intermedia,"Animación fantástica, pero la historia es un desastre",8,4,0.5,True
+Logan,Action,9.0,positiva,Logan era una película muy bien hecha.,7,4,0.5714285714285714,True
+Logan,Action,9.0,positiva,"Triste, brutal, y sin duda increíble.",6,4,0.6666666666666666,True
+V for Vendetta,Action,9.0,positiva,Entré en esta película sin saber qué esperar.,8,4,0.5,True
+V for Vendetta,Action,9.0,positiva,Esta película es fantástica.,4,2,0.5,True
+Stand by Me,Adventure,10.0,positiva,Stand By Me es una película conmovedora que se estrena en los años 50 sobre un grupo joven de chicos que se aventuran a descubrir el cuerpo de un adolescente desaparecido de su edad.,33,10,0.30303030303030304,True
+The Brothers Grimm,Adventure,9.0,positiva,una obra postmodernista con una convención de cuentos de hadas,10,3,0.3,True
+Un plan perfecto,Intriga,6.1,positiva,"'Trepidante y acerada (...) admirable película (...) Posee toneladas de ingenio coloquial, acción de la buena, sentido del humor, ritmo y fluidez' (Carlos Boyero: Diario El Mundo) | 'Con su habitual elegancia, y a través de otro de sus prodigiosos guiones, (...) Y el inmenso, el maravilloso actor que es Gene Hackman se mueve en esta historia como un rey en sus dominios.",59,19,0.3220338983050847,True
+The Lobster,Comedy,1.0,negativa,"No es ciencia ficción, es un proyecto universitario de arte sobre-extenso",12,4,0.3333333333333333,True
+Los feos,Ciencia ficción,3.7,negativa,"'A pesar de contar con un reparto joven y comprometido, la poco emocionante franquicia del director McG no dice nada significativo sobre la belleza interior y los estándares de belleza deformados' (Tomris Laffly: Variety) | 'Decir que es una imitación de cuarta generación de una infinidad de sagas de adolescentes similares que le han precedido sería quedarse corto' (Nick Schager: The Daily Beast) | 'Uglies' necesita volver a 'clase de metamorfosis' y aprender a metamorfosearse en algo más original' (John Serba: Decider) | 'Aunque 'Uglies' no eclipsará a la franquicia de 'Hunger Games', resulta ser un thriller bastante absorbente que funcionará bien entre el público más joven' (Frank Scheck: The Hollywood Reporter) | 'Aburrida, desconcertante e insultante (...) Una película para rellenar un cupo, para no pensar ni disfrutar, para que Netflix pueda decir a sus usuarios que esta semana tienen una nueva película para ver' (William Bibbiani: The Wrap)",145,60,0.41379310344827586,True
+Chocolat,Drama,10.0,positiva,Fantasía romántica con un mensaje,5,3,0.6,True
+The 40-Year-Old Virgin,Comedy,9.0,positiva,Esto es un pedazo de genio cómico.,7,3,0.42857142857142855,True
+I Am Legend,Drama,5.0,intermedia,"Aunque bien actuado y creíble, estoy un poco cansado de la corrección política de Hollywood.",15,7,0.4666666666666667,True
+I Am Legend,Drama,5.0,intermedia,El libro original describe al Dr.,6,3,0.5,True
+Sherlock,Crime,4.0,negativa,No puedo comprender cómo el personaje interpretado por Benedict es Sherlock Holmes: el nombre es lo único que es lo mismo.,21,8,0.38095238095238093,True
+Pitch Perfect,Comedy,5.0,intermedia,"Una chica llamada Becca se une a un grupo de Capella, The Barden Bellas, mientras compiten contra otro grupo de Capella de su universidad para ganar Nacionales",27,10,0.37037037037037035,True
+The Truman Show,Comedy,10.0,positiva,Algo diferente para variar,4,1,0.25,True
+Inside Out,Animation,10.0,positiva,Increíble y considerado regalo de Pixar,6,4,0.6666666666666666,True
+Ted,Comedy,10.0,positiva,Seth McFarlane es oficialmente un genio de la comedia,9,2,0.2222222222222222,True
+Happy Feet,Animation,7.0,positiva,Disfruté de esta película.,4,2,0.5,True
+Spirited Away,Animation,9.0,positiva,Lo mejor que el cine japonés tiene para ofrecer,9,4,0.4444444444444444,True
+V for Vendetta,Action,10.0,positiva,"Me quedé asombrado, ya que sólo vi 'V para Vendetta'.",10,3,0.3,True
+V for Vendetta,Action,10.0,positiva,Me preguntaba por qué no la he visto hasta ahora.,10,2,0.2,True
+Silent Hill,Adventure,9.0,positiva,Esta película es un excelente ejemplo de cómo un juego debe adaptarse a una película.,15,7,0.4666666666666667,True
+Silent Hill,Adventure,9.0,positiva,La historia era fantástica y los actores hicieron un trabajo bastante bien para retratar a sus personajes.,17,8,0.47058823529411764,True
+Spawn,Action,5.0,intermedia,Como el cómic - por las razones correctas e incorrectas,9,2,0.2222222222222222,True
+Sunrise,Drama,10.0,positiva,Esta película tiene que ser una de las grandes películas mudas.,11,4,0.36363636363636365,True
+Sunrise,Drama,10.0,positiva,"Hay pocas películas que pueden ser tan simplistas y, sin embargo, tan poderosas.",13,8,0.6153846153846154,True
+The Prestige,Drama,5.0,intermedia,"Mi señor, no negué ningún prisionero.",6,2,0.3333333333333333,True
+The Twilight Saga: New Moon,Adventure,4.0,negativa,"A los fans duros de morir les encantará esto, pero no a todos los demás.",15,4,0.26666666666666666,True
+The Lone Ranger,Action,7.0,positiva,"Muy bien, amigos, necesito decirles que esta era una película mezclada.",11,4,0.36363636363636365,True
+The Lone Ranger,Action,7.0,positiva,Aquellos que van a ver esta película sólo para entretenimiento podrían encontrar algunas escenas crueles o escenas que tocan la realidad de la época.,24,12,0.5,True
+La Land,Comedy,6.0,intermedia,Prepárate para un baile en la música y,8,3,0.375,True
+Guardians of the Galaxy: Vol. 2,Action,10.0,positiva,Con mi fandom de películas de superhéroes a lo largo de los años la primera película de Guardianes Marvel para mí superó mis expectativas y ahora con la segunda entrega esta es la mejor película de Marvel y la mejor película que he visto.,44,19,0.4318181818181818,True
+Dunkirk,Action,7.0,positiva,¡Cuidado con los pequeños spoilers!,5,3,0.6,True
+Dunkirk,Action,7.0,positiva,"No fue una película mala, pero fue decepcionante considerando todas las críticas positivas.",13,7,0.5384615384615384,True
+Species,Action,7.0,positiva,"Ahora no soy un gran Sci Fi buff pero las especies no eran malas, principalmente se centró en la historia de cómo una mujer alienígena estaba tratando de aparearse en el planeta tierra y de los científicos estaban tratando de detenerla.",41,13,0.3170731707317073,True
+Toy Story,Animation,10.0,positiva,Toy Story es una obra maestra épica!,7,5,0.7142857142857143,True
+Inside Man,Crime,10.0,positiva,"Lo que una película todo funciona, la actuación es de primera clase, la dirección es excelente la historia es una no falta.",22,9,0.4090909090909091,True
+Babel,Drama,1.0,negativa,Esta película me fue mostrada como un adelanto de la película más reciente de Brad Pitt.,16,5,0.3125,True
+Babel,Drama,1.0,negativa,Desde que tiene algunas grandes películas me sentí aliviado al ver el título BABEL venir a través de la pantalla.,20,9,0.45,True
+Moana,Animation,9.0,positiva,¡Gran película!,2,2,1.0,True
+Moana,Animation,9.0,positiva,"Excelente tejeduría de historia y canción, física y espiritual, individual y comunitaria.",12,3,0.25,True
+A Knight's Tale,Action,1.0,negativa,Hay muchas cosas buenas sobre 'Un cuento de caballero'.,9,5,0.5555555555555556,True
+A Knight's Tale,Action,1.0,negativa,"El reparto tiene mucho talento, las escenas de juating y pelea son buenas y el diseño de la producción crea una sensación medieval moderadamente realista.",25,10,0.4,True
+Lady Bird,Comedy,4.0,negativa,Tenemos que dejar de recompensar a mocosos,7,1,0.14285714285714285,True
