@@ -1,4 +1,5 @@
 /data/raw/corpus_peliculas 2.csv
-
+atlas-credentials.env
 .venv/
+*.env
 
